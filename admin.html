@@ -1,0 +1,3099 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Grand Horizon | Admin Dashboard</title>
+
+<style>
+
+/* ================================
+   RESET
+================================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#1f2937;
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#102a43;
+    color:white;
+    padding:25px 15px;
+    z-index:1000;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.logo h2{
+    font-size:21px;
+    letter-spacing:.5px;
+}
+
+.logo p{
+    font-size:12px;
+    color:#bcccdc;
+    margin-top:5px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:13px 15px;
+    margin:5px 0;
+    color:#d9e2ec;
+    text-decoration:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.2s;
+    font-size:14px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#1f4e79;
+    color:white;
+}
+
+.nav-icon{
+    width:23px;
+    text-align:center;
+    font-size:17px;
+}
+
+
+/* ================================
+   MAIN
+================================ */
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+
+/* ================================
+   TOPBAR
+================================ */
+
+.topbar{
+    height:70px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.topbar h1{
+    font-size:22px;
+}
+
+.admin-profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    background:#1f4e79;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+
+/* ================================
+   CONTENT
+================================ */
+
+.content{
+    padding:30px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+
+/* ================================
+   STAT CARDS
+================================ */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border-radius:12px;
+    padding:22px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    border:1px solid #edf0f4;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-title{
+    color:#6b7280;
+    font-size:13px;
+}
+
+.stat-icon{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    background:#e8f1f8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:12px;
+    color:#102a43;
+}
+
+.stat-sub{
+    margin-top:7px;
+    color:#6b7280;
+    font-size:12px;
+}
+
+
+/* ================================
+   DASHBOARD GRID
+================================ */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.panel{
+    background:white;
+    border-radius:12px;
+    padding:22px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    border:1px solid #edf0f4;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.panel-header h3{
+    font-size:17px;
+}
+
+
+/* ================================
+   TABLE
+================================ */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    font-size:12px;
+    color:#6b7280;
+    padding:12px 10px;
+    border-bottom:1px solid #e5e7eb;
+    white-space:nowrap;
+}
+
+td{
+    padding:13px 10px;
+    font-size:13px;
+    border-bottom:1px solid #f0f1f3;
+    white-space:nowrap;
+}
+
+.empty{
+    text-align:center;
+    padding:30px;
+    color:#6b7280;
+}
+
+
+/* ================================
+   BADGES
+================================ */
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.confirmed{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.cancelled{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.paid{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.available{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.occupied{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+
+/* ================================
+   SUMMARY
+================================ */
+
+.summary-item{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.summary-item:last-child{
+    border-bottom:none;
+}
+
+.summary-label{
+    color:#6b7280;
+    font-size:13px;
+}
+
+.summary-value{
+    font-weight:bold;
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.btn{
+    border:none;
+    background:#1f4e79;
+    color:white;
+    padding:9px 15px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:13px;
+    transition:.2s;
+}
+
+.btn:hover{
+    background:#163b5c;
+}
+
+.btn-danger{
+    background:#dc2626;
+}
+
+.btn-danger:hover{
+    background:#b91c1c;
+}
+
+.btn-secondary{
+    background:#64748b;
+}
+
+.btn-success{
+    background:#15803d;
+}
+
+.small-btn{
+    padding:7px 10px;
+    font-size:11px;
+}
+
+
+/* ================================
+   TOOLBAR
+================================ */
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.search{
+    width:300px;
+    padding:11px 13px;
+    border:1px solid #d1d5db;
+    border-radius:7px;
+    outline:none;
+}
+
+.search:focus{
+    border-color:#1f4e79;
+}
+
+
+/* ================================
+   ROOMS
+================================ */
+
+.room-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.room-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    border:1px solid #edf0f4;
+    transition:.2s;
+}
+
+.room-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.room-card h3{
+    margin-bottom:8px;
+}
+
+.room-card p{
+    color:#6b7280;
+    font-size:13px;
+    margin:6px 0;
+}
+
+.room-price{
+    font-size:20px;
+    font-weight:bold;
+    margin:15px 0;
+    color:#102a43;
+}
+
+
+/* ================================
+   MODAL
+================================ */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:520px;
+    max-width:92%;
+    border-radius:12px;
+    padding:25px;
+    max-height:90vh;
+    overflow-y:auto;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.close{
+    border:none;
+    background:none;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.detail-row{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    padding:11px 0;
+    border-bottom:1px solid #eee;
+}
+
+.detail-row span:first-child{
+    color:#6b7280;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .room-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:768px){
+
+    .sidebar{
+        width:70px;
+        padding:20px 8px;
+    }
+
+    .logo h2,
+    .logo p,
+    .nav-item span:last-child{
+        display:none;
+    }
+
+    .nav-item{
+        justify-content:center;
+        padding:13px 5px;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .room-grid{
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+        flex-direction:column;
+    }
+
+    .search{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <h2>Grand Horizon</h2>
+
+        <p>Hotel Administration</p>
+
+    </div>
+
+
+    <a class="nav-item active"
+       data-page="dashboard">
+
+        <span class="nav-icon">📊</span>
+
+        <span>Dashboard</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       data-page="reservations">
+
+        <span class="nav-icon">📅</span>
+
+        <span>Reservations</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       data-page="rooms">
+
+        <span class="nav-icon">🏨</span>
+
+        <span>Rooms</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="guests.html">
+
+        <span class="nav-icon">👥</span>
+
+        <span>Guests</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="payments.html">
+
+        <span class="nav-icon">💳</span>
+
+        <span>Payments</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="reports.html">
+
+        <span class="nav-icon">📈</span>
+
+        <span>Reports</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="settings.html">
+
+        <span class="nav-icon">⚙️</span>
+
+        <span>Settings</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="index.html">
+
+        <span class="nav-icon">🌐</span>
+
+        <span>View Website</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       onclick="logout()">
+
+        <span class="nav-icon">🚪</span>
+
+        <span>Logout</span>
+
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <h1 id="pageTitle">
+        Dashboard
+    </h1>
+
+
+    <div class="admin-profile">
+
+        <div>
+            <strong>Administrator</strong>
+        </div>
+
+        <div class="avatar">
+            A
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<section class="content">
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div class="page active"
+     id="dashboard">
+
+
+    <div class="stats">
+
+
+        <!-- TOTAL RESERVATIONS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+                    Total Reservations
+                </div>
+
+                <div class="stat-icon">
+                    📅
+                </div>
+
+            </div>
+
+            <div class="stat-number"
+                 id="totalBookings">
+                0
+            </div>
+
+            <div class="stat-sub">
+                All bookings
+            </div>
+
+        </div>
+
+
+        <!-- TODAY CHECKINS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+                    Today's Check-ins
+                </div>
+
+                <div class="stat-icon">
+                    🛎️
+                </div>
+
+            </div>
+
+            <div class="stat-number"
+                 id="todayCheckins">
+                0
+            </div>
+
+            <div class="stat-sub">
+                Arrivals today
+            </div>
+
+        </div>
+
+
+        <!-- REVENUE -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+                    Total Revenue
+                </div>
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+            </div>
+
+            <div class="stat-number"
+                 id="totalRevenue">
+                ₹0
+            </div>
+
+            <div class="stat-sub">
+                From active reservations
+            </div>
+
+        </div>
+
+
+        <!-- PENDING -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+                    Pending Payments
+                </div>
+
+                <div class="stat-icon">
+                    💳
+                </div>
+
+            </div>
+
+            <div class="stat-number"
+                 id="pendingPayments">
+                ₹0
+            </div>
+
+            <div class="stat-sub">
+                Amount pending
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="dashboard-grid">
+
+
+        <!-- RECENT RESERVATIONS -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Recent Reservations
+                </h3>
+
+                <button class="btn"
+                        onclick="showPage('reservations')">
+
+                    View All
+
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Guest</th>
+
+                            <th>Room</th>
+
+                            <th>Check-in</th>
+
+                            <th>Amount</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="recentTableBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TODAY SUMMARY -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    Today's Summary
+                </h3>
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Check-ins
+                </span>
+
+                <span class="summary-value"
+                      id="summaryCheckins">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Check-outs
+                </span>
+
+                <span class="summary-value"
+                      id="summaryCheckouts">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Occupied Rooms
+                </span>
+
+                <span class="summary-value"
+                      id="occupiedRooms">
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Pending Payments
+                </span>
+
+                <span class="summary-value"
+                      id="summaryPending">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     RESERVATIONS
+===================================================== -->
+
+<div class="page"
+     id="reservations">
+
+
+    <div class="toolbar">
+
+
+        <input
+            type="text"
+            id="reservationSearch"
+            class="search"
+            placeholder="Search guest, email, room..."
+            oninput="searchReservations()"
+        >
+
+
+        <button class="btn"
+                onclick="window.location.href='booking.html'">
+
+            + New Booking
+
+        </button>
+
+
+    </div>
+
+
+
+    <div class="panel">
+
+
+        <div class="panel-header">
+
+            <h3>
+                All Reservations
+            </h3>
+
+
+            <button class="btn btn-secondary"
+                    onclick="loadBookings()">
+
+                🔄 Refresh
+
+            </button>
+
+        </div>
+
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Booking ID</th>
+
+                        <th>Guest</th>
+
+                        <th>Email</th>
+
+                        <th>Room</th>
+
+                        <th>Check-in</th>
+
+                        <th>Check-out</th>
+
+                        <th>Total</th>
+
+                        <th>Status</th>
+
+                        <th>Payment</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="reservationTableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ROOMS
+===================================================== -->
+
+<div class="page"
+     id="rooms">
+
+
+    <div class="panel">
+
+
+        <div class="panel-header">
+
+            <div>
+
+                <h3>
+                    Room Management
+                </h3>
+
+                <p style="
+                    color:#6b7280;
+                    font-size:13px;
+                    margin-top:5px;
+                ">
+
+                    Live room availability based on reservations
+
+                </p>
+
+            </div>
+
+
+            <button class="btn"
+                    onclick="loadRooms()">
+
+                🔄 Refresh
+
+            </button>
+
+        </div>
+
+
+        <div class="room-grid"
+             id="roomGrid">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+
+<!-- =====================================================
+     BOOKING MODAL
+===================================================== -->
+
+<div class="modal"
+     id="bookingModal">
+
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Booking Details
+            </h2>
+
+            <button class="close"
+                    onclick="closeModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div id="bookingDetails">
+        </div>
+
+
+        <div class="modal-actions"
+             id="bookingActions">
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   GET BOOKINGS
+===================================================== */
+
+function getBookings(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem("hotelBookings")
+        ) || [];
+
+    }
+
+    catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE BOOKINGS
+===================================================== */
+
+function saveBookings(bookings){
+
+    localStorage.setItem(
+        "hotelBookings",
+        JSON.stringify(bookings)
+    );
+
+}
+
+
+/* =====================================================
+   MONEY
+===================================================== */
+
+function money(value){
+
+    return "₹" +
+        Number(value || 0)
+        .toLocaleString("en-IN");
+
+}
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDate(date){
+
+    if(!date){
+        return "-";
+    }
+
+    const d =
+        new Date(date + "T00:00:00");
+
+    if(isNaN(d.getTime())){
+        return date;
+    }
+
+    return d.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   TODAY
+===================================================== */
+
+function getToday(){
+
+    const today =
+        new Date();
+
+    return today.getFullYear() +
+        "-" +
+        String(
+            today.getMonth()+1
+        ).padStart(2,"0") +
+        "-" +
+        String(
+            today.getDate()
+        ).padStart(2,"0");
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+    const bookings =
+        getBookings();
+
+    const today =
+        getToday();
+
+
+    /* TOTAL */
+
+    document.getElementById(
+        "totalBookings"
+    ).textContent =
+        bookings.length;
+
+
+    /* CHECKINS */
+
+    const checkins =
+        bookings.filter(b =>
+
+            b.checkIn === today &&
+
+            String(
+                b.status || ""
+            ).toLowerCase()
+            !== "cancelled"
+
+        );
+
+
+    document.getElementById(
+        "todayCheckins"
+    ).textContent =
+        checkins.length;
+
+
+    document.getElementById(
+        "summaryCheckins"
+    ).textContent =
+        checkins.length;
+
+
+    /* CHECKOUTS */
+
+    const checkouts =
+        bookings.filter(b =>
+
+            b.checkOut === today &&
+
+            String(
+                b.status || ""
+            ).toLowerCase()
+            !== "cancelled"
+
+        );
+
+
+    document.getElementById(
+        "summaryCheckouts"
+    ).textContent =
+        checkouts.length;
+
+
+    /* REVENUE */
+
+    const revenue =
+        bookings
+        .filter(b =>
+
+            String(
+                b.status || ""
+            ).toLowerCase()
+            !== "cancelled"
+
+        )
+        .reduce(
+            (sum,b) =>
+                sum +
+                Number(
+                    b.total || 0
+                ),
+            0
+        );
+
+
+    document.getElementById(
+        "totalRevenue"
+    ).textContent =
+        money(revenue);
+
+
+    /* PENDING PAYMENT */
+
+    const pendingBookings =
+        bookings.filter(b =>
+
+            String(
+                b.status || ""
+            ).toLowerCase()
+            !== "cancelled"
+
+            &&
+
+            String(
+                b.paymentStatus ||
+                "Pending"
+            ).toLowerCase()
+            !== "paid"
+
+        );
+
+
+    const pendingAmount =
+        pendingBookings.reduce(
+            (sum,b) =>
+                sum +
+                Number(
+                    b.total || 0
+                ),
+            0
+        );
+
+
+    document.getElementById(
+        "pendingPayments"
+    ).textContent =
+        money(pendingAmount);
+
+
+    document.getElementById(
+        "summaryPending"
+    ).textContent =
+        pendingBookings.length;
+
+
+    /* OCCUPIED ROOMS */
+
+    const occupied =
+        bookings.filter(b => {
+
+            const status =
+                String(
+                    b.status || ""
+                ).toLowerCase();
+
+            if(status === "cancelled"){
+                return false;
+            }
+
+            if(
+                !b.checkIn ||
+                !b.checkOut
+            ){
+                return false;
+            }
+
+            return (
+                b.checkIn <= today &&
+                today < b.checkOut
+            );
+
+        });
+
+
+    const uniqueRooms =
+        new Set(
+            occupied.map(
+                b => b.room
+            )
+        );
+
+
+    document.getElementById(
+        "occupiedRooms"
+    ).textContent =
+        uniqueRooms.size;
+
+
+    loadRecentReservations();
+
+}
+
+
+/* =====================================================
+   RECENT RESERVATIONS
+===================================================== */
+
+function loadRecentReservations(){
+
+    const bookings =
+        getBookings();
+
+
+    const tbody =
+        document.getElementById(
+            "recentTableBody"
+        );
+
+
+    if(!bookings.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="6"
+                    class="empty">
+
+                    No reservations yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    const recent =
+        [...bookings]
+        .reverse()
+        .slice(0,6);
+
+
+    tbody.innerHTML =
+        recent.map(b => {
+
+            const status =
+                b.status ||
+                "Confirmed";
+
+
+            const statusClass =
+                status.toLowerCase()
+                === "cancelled"
+                ? "cancelled"
+                : "confirmed";
+
+
+            const guest =
+                b.guest ||
+                (
+                    (b.firstName || "") +
+                    " " +
+                    (b.lastName || "")
+                ).trim();
+
+
+            return `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(b.id)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(guest)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(b.room)}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            b.checkIn
+                        )}
+                    </td>
+
+                    <td>
+                        ${money(b.total)}
+                    </td>
+
+                    <td>
+
+                        <span class="badge ${statusClass}">
+                            ${escapeHTML(status)}
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =====================================================
+   RESERVATION TABLE
+===================================================== */
+
+function loadBookings(){
+
+    const bookings =
+        getBookings();
+
+
+    const tbody =
+        document.getElementById(
+            "reservationTableBody"
+        );
+
+
+    if(!bookings.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="10"
+                    class="empty">
+
+                    No reservations found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+
+        [...bookings]
+        .reverse()
+        .map(
+            createBookingRow
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   CREATE BOOKING ROW
+===================================================== */
+
+function createBookingRow(b){
+
+    const status =
+        b.status ||
+        "Confirmed";
+
+
+    const payment =
+        b.paymentStatus ||
+        "Pending";
+
+
+    const statusClass =
+        status.toLowerCase()
+        === "cancelled"
+        ? "cancelled"
+        : "confirmed";
+
+
+    const paymentClass =
+        payment.toLowerCase()
+        === "paid"
+        ? "paid"
+        : "pending";
+
+
+    const guest =
+        b.guest ||
+        (
+            (b.firstName || "") +
+            " " +
+            (b.lastName || "")
+        ).trim();
+
+
+    const cancelled =
+        status.toLowerCase()
+        === "cancelled";
+
+
+    return `
+
+        <tr>
+
+            <td>
+                <strong>
+                    ${escapeHTML(b.id)}
+                </strong>
+            </td>
+
+
+            <td>
+                ${escapeHTML(guest)}
+            </td>
+
+
+            <td>
+                ${escapeHTML(b.email)}
+            </td>
+
+
+            <td>
+                ${escapeHTML(b.room)}
+            </td>
+
+
+            <td>
+                ${formatDate(b.checkIn)}
+            </td>
+
+
+            <td>
+                ${formatDate(b.checkOut)}
+            </td>
+
+
+            <td>
+                <strong>
+                    ${money(b.total)}
+                </strong>
+            </td>
+
+
+            <td>
+
+                <span class="badge ${statusClass}">
+                    ${escapeHTML(status)}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <span class="badge ${paymentClass}">
+                    ${escapeHTML(payment)}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <button
+                    class="btn small-btn"
+                    onclick="viewBooking('${escapeHTML(b.id)}')">
+
+                    View
+
+                </button>
+
+
+                ${
+                    !cancelled
+                    ?
+                    `
+
+                    <button
+                        class="btn btn-danger small-btn"
+                        onclick="cancelBooking('${escapeHTML(b.id)}')">
+
+                        Cancel
+
+                    </button>
+
+                    `
+                    :
+                    ""
+                }
+
+            </td>
+
+        </tr>
+
+    `;
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function searchReservations(){
+
+    const query =
+        document.getElementById(
+            "reservationSearch"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const bookings =
+        getBookings();
+
+
+    const filtered =
+        bookings.filter(b => {
+
+            const guest =
+                b.guest ||
+                (
+                    (b.firstName || "") +
+                    " " +
+                    (b.lastName || "")
+                );
+
+
+            const text = [
+
+                b.id,
+                guest,
+                b.email,
+                b.phone,
+                b.room,
+                b.status,
+                b.paymentStatus
+
+            ]
+            .join(" ")
+            .toLowerCase();
+
+
+            return text.includes(query);
+
+        });
+
+
+    const tbody =
+        document.getElementById(
+            "reservationTableBody"
+        );
+
+
+    if(!filtered.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="10"
+                    class="empty">
+
+                    No matching reservations.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        [...filtered]
+        .reverse()
+        .map(createBookingRow)
+        .join("");
+
+}
+
+
+/* =====================================================
+   VIEW BOOKING
+===================================================== */
+
+function viewBooking(id){
+
+    const bookings =
+        getBookings();
+
+
+    const booking =
+        bookings.find(
+            b =>
+            String(b.id) ===
+            String(id)
+        );
+
+
+    if(!booking){
+        return;
+    }
+
+
+    const guest =
+        booking.guest ||
+        (
+            (booking.firstName || "") +
+            " " +
+            (booking.lastName || "")
+        ).trim();
+
+
+    document.getElementById(
+        "bookingDetails"
+    ).innerHTML = `
+
+        <div class="detail-row">
+
+            <span>
+                Booking ID
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.id
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Guest
+            </span>
+
+            <strong>
+                ${escapeHTML(guest)}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Email
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.email
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Phone
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.phone
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Room
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.room
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Check-in
+            </span>
+
+            <strong>
+                ${formatDate(
+                    booking.checkIn
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Check-out
+            </span>
+
+            <strong>
+                ${formatDate(
+                    booking.checkOut
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Guests
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.guests
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Nights
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.nights
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Total
+            </span>
+
+            <strong>
+                ${money(
+                    booking.total
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Payment
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.paymentStatus ||
+                    "Pending"
+                )}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Status
+            </span>
+
+            <strong>
+                ${escapeHTML(
+                    booking.status ||
+                    "Confirmed"
+                )}
+            </strong>
+
+        </div>
+
+
+        ${
+            booking.specialRequest
+            ?
+            `
+
+            <div class="detail-row">
+
+                <span>
+                    Special Request
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        booking.specialRequest
+                    )}
+                </strong>
+
+            </div>
+
+            `
+            :
+            ""
+        }
+
+    `;
+
+
+    const actions =
+        document.getElementById(
+            "bookingActions"
+        );
+
+
+    if(
+        String(
+            booking.status || ""
+        ).toLowerCase()
+        === "cancelled"
+    ){
+
+        actions.innerHTML = `
+
+            <button
+                class="btn btn-secondary"
+                onclick="closeModal()">
+
+                Close
+
+            </button>
+
+        `;
+
+    }
+
+    else{
+
+        actions.innerHTML = `
+
+            <button
+                class="btn btn-danger"
+                onclick="cancelBooking('${escapeHTML(booking.id)}')">
+
+                Cancel Booking
+
+            </button>
+
+
+            <button
+                class="btn btn-secondary"
+                onclick="closeModal()">
+
+                Close
+
+            </button>
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        "bookingModal"
+    )
+    .classList.add("show");
+
+}
+
+
+/* =====================================================
+   CANCEL BOOKING
+===================================================== */
+
+function cancelBooking(id){
+
+    const bookings =
+        getBookings();
+
+
+    const index =
+        bookings.findIndex(
+            b =>
+            String(b.id) ===
+            String(id)
+        );
+
+
+    if(index === -1){
+
+        alert(
+            "Booking not found."
+        );
+
+        return;
+
+    }
+
+
+    const booking =
+        bookings[index];
+
+
+    if(
+        String(
+            booking.status || ""
+        ).toLowerCase()
+        === "cancelled"
+    ){
+
+        alert(
+            "This booking is already cancelled."
+        );
+
+        return;
+
+    }
+
+
+    const guest =
+        booking.guest ||
+        (
+            (booking.firstName || "") +
+            " " +
+            (booking.lastName || "")
+        ).trim();
+
+
+    const confirmed =
+        confirm(
+
+            "Cancel this booking?\n\n" +
+
+            "Booking: " +
+            booking.id +
+            "\n" +
+
+            "Guest: " +
+            guest +
+            "\n" +
+
+            "Room: " +
+            booking.room +
+            "\n\n" +
+
+            "The room will become available again."
+
+        );
+
+
+    if(!confirmed){
+        return;
+    }
+
+
+    /* UPDATE BOOKING */
+
+    booking.status =
+        "Cancelled";
+
+    booking.cancelledAt =
+        new Date().toISOString();
+
+
+    saveBookings(bookings);
+
+
+    /* UPDATE GUEST */
+
+    updateGuestAfterCancellation(
+        booking
+    );
+
+
+    /* UPDATE PAYMENT */
+
+    updatePaymentAfterCancellation(
+        booking
+    );
+
+
+    /* CLOSE MODAL */
+
+    closeModal();
+
+
+    /* REFRESH EVERYTHING */
+
+    updateDashboard();
+
+    loadBookings();
+
+    loadRooms();
+
+
+    alert(
+        "Booking cancelled successfully."
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE GUEST AFTER CANCELLATION
+===================================================== */
+
+function updateGuestAfterCancellation(
+    booking
+){
+
+    try{
+
+        const guests =
+            JSON.parse(
+                localStorage.getItem(
+                    "hotelGuests"
+                )
+            ) || [];
+
+
+        const guestIndex =
+            guests.findIndex(
+                g =>
+                g.email &&
+                booking.email &&
+                g.email.toLowerCase()
+                ===
+                booking.email.toLowerCase()
+            );
+
+
+        if(guestIndex === -1){
+            return;
+        }
+
+
+        const guest =
+            guests[guestIndex];
+
+
+        if(
+            Number(
+                guest.totalBookings || 0
+            ) > 0
+        ){
+
+            guest.totalBookings =
+                Number(
+                    guest.totalBookings
+                ) - 1;
+
+        }
+
+
+        guest.status =
+            "Active";
+
+
+        guest.lastVisit =
+            booking.checkIn;
+
+
+        /*
+           Keep guest's latest valid booking
+           as room if available.
+        */
+
+        const bookings =
+            getBookings();
+
+
+        const activeGuestBookings =
+            bookings.filter(b =>
+
+                b.email &&
+                booking.email &&
+
+                b.email.toLowerCase()
+                ===
+                booking.email.toLowerCase()
+
+                &&
+
+                String(
+                    b.status || ""
+                ).toLowerCase()
+                !== "cancelled"
+
+        );
+
+
+        if(activeGuestBookings.length){
+
+            const latest =
+                activeGuestBookings[
+                    activeGuestBookings.length - 1
+                ];
+
+
+            guest.room =
+                latest.room;
+
+
+            guest.lastVisit =
+                latest.checkIn;
+
+        }
+
+        else{
+
+            guest.room =
+                "-";
+
+        }
+
+
+        guests[guestIndex] =
+            guest;
+
+
+        localStorage.setItem(
+            "hotelGuests",
+            JSON.stringify(guests)
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Guest update error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE PAYMENT AFTER CANCELLATION
+===================================================== */
+
+function updatePaymentAfterCancellation(
+    booking
+){
+
+    try{
+
+        const payments =
+            JSON.parse(
+                localStorage.getItem(
+                    "hotelPayments"
+                )
+            ) || [];
+
+
+        const paymentIndex =
+            payments.findIndex(
+                p =>
+                String(
+                    p.bookingId ||
+                    p.id ||
+                    ""
+                )
+                ===
+                String(
+                    booking.id
+                )
+            );
+
+
+        if(paymentIndex !== -1){
+
+            payments[paymentIndex].status =
+                "Cancelled";
+
+            payments[paymentIndex].bookingStatus =
+                "Cancelled";
+
+            payments[paymentIndex].updatedAt =
+                new Date().toISOString();
+
+        }
+
+
+        localStorage.setItem(
+            "hotelPayments",
+            JSON.stringify(payments)
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Payment update error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LIVE ROOM DATA
+===================================================== */
+
+const roomData = [
+
+    {
+        name:"Deluxe Room",
+        price:4999,
+        capacity:2,
+        icon:"🛏️"
+    },
+
+    {
+        name:"Executive Room",
+        price:6999,
+        capacity:2,
+        icon:"🏨"
+    },
+
+    {
+        name:"Luxury Suite",
+        price:9999,
+        capacity:3,
+        icon:"🛋️"
+    },
+
+    {
+        name:"Presidential Suite",
+        price:14999,
+        capacity:4,
+        icon:"👑"
+    },
+
+    {
+        name:"Family Room",
+        price:7499,
+        capacity:4,
+        icon:"👨‍👩‍👧‍👦"
+    },
+
+    {
+        name:"Ocean View Room",
+        price:8499,
+        capacity:3,
+        icon:"🌊"
+    }
+
+];
+
+
+/* =====================================================
+   LOAD LIVE ROOMS
+===================================================== */
+
+function loadRooms(){
+
+    const bookings =
+        getBookings();
+
+
+    const today =
+        getToday();
+
+
+    const roomGrid =
+        document.getElementById(
+            "roomGrid"
+        );
+
+
+    roomGrid.innerHTML =
+        roomData.map(room => {
+
+
+            const activeBookings =
+                bookings.filter(
+                    booking => {
+
+                        const status =
+                            String(
+                                booking.status ||
+                                ""
+                            ).toLowerCase();
+
+
+                        if(
+                            status ===
+                            "cancelled"
+                        ){
+
+                            return false;
+
+                        }
+
+
+                        if(
+                            booking.room !==
+                            room.name
+                        ){
+
+                            return false;
+
+                        }
+
+
+                        if(
+                            !booking.checkIn ||
+                            !booking.checkOut
+                        ){
+
+                            return false;
+
+                        }
+
+
+                        return (
+
+                            booking.checkIn
+                            <=
+                            today
+
+                            &&
+
+                            today
+                            <
+                            booking.checkOut
+
+                        );
+
+                    }
+                );
+
+
+            const isOccupied =
+                activeBookings.length > 0;
+
+
+            const statusText =
+                isOccupied
+                ?
+                "Occupied"
+                :
+                "Available";
+
+
+            const statusClass =
+                isOccupied
+                ?
+                "occupied"
+                :
+                "available";
+
+
+            let guestName = "";
+
+
+            if(isOccupied){
+
+                const booking =
+                    activeBookings[0];
+
+
+                guestName =
+                    booking.guest ||
+
+                    (
+                        (booking.firstName || "") +
+                        " " +
+                        (booking.lastName || "")
+                    ).trim();
+
+            }
+
+
+            return `
+
+                <div class="room-card">
+
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        margin-bottom:15px;
+                    ">
+
+
+                        <div style="
+                            font-size:32px;
+                        ">
+
+                            ${room.icon}
+
+                        </div>
+
+
+                        <span class="badge ${statusClass}">
+
+                            ${statusText}
+
+                        </span>
+
+
+                    </div>
+
+
+                    <h3>
+
+                        ${escapeHTML(
+                            room.name
+                        )}
+
+                    </h3>
+
+
+                    <p>
+
+                        👥 Capacity:
+                        ${room.capacity}
+                        Guests
+
+                    </p>
+
+
+                    <p>
+
+                        🏷️ Room Type:
+                        ${escapeHTML(
+                            room.name
+                        )}
+
+                    </p>
+
+
+                    <div class="room-price">
+
+                        ${money(room.price)}
+
+                        <span style="
+                            font-size:12px;
+                            color:#6b7280;
+                            font-weight:normal;
+                        ">
+
+                            /night
+
+                        </span>
+
+                    </div>
+
+
+                    ${
+                        isOccupied
+                        ?
+
+                        `
+
+                        <div style="
+                            background:#fff1f2;
+                            padding:12px;
+                            border-radius:8px;
+                            margin-top:12px;
+                            font-size:13px;
+                        ">
+
+                            <strong>
+                                Current Guest
+                            </strong>
+
+                            <div style="
+                                margin-top:5px;
+                                color:#6b7280;
+                            ">
+
+                                ${escapeHTML(
+                                    guestName
+                                )}
+
+                            </div>
+
+                        </div>
+
+                        `
+
+                        :
+
+                        `
+
+                        <div style="
+                            background:#f0fdf4;
+                            padding:12px;
+                            border-radius:8px;
+                            margin-top:12px;
+                            color:#166534;
+                            font-size:13px;
+                        ">
+
+                            ✓ Room available
+                            for booking
+
+                        </div>
+
+                        `
+                    }
+
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(page){
+
+    document.querySelectorAll(
+        ".page"
+    )
+    .forEach(
+        p =>
+        p.classList.remove(
+            "active"
+        )
+    );
+
+
+    const target =
+        document.getElementById(
+            page
+        );
+
+
+    if(target){
+
+        target.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document.querySelectorAll(
+        ".nav-item"
+    )
+    .forEach(item => {
+
+        item.classList.remove(
+            "active"
+        );
+
+
+        if(
+            item.dataset.page
+            ===
+            page
+        ){
+
+            item.classList.add(
+                "active"
+            );
+
+        }
+
+    });
+
+
+    const titles = {
+
+        dashboard:
+            "Dashboard",
+
+        reservations:
+            "Reservations",
+
+        rooms:
+            "Rooms"
+
+    };
+
+
+    document.getElementById(
+        "pageTitle"
+    ).textContent =
+        titles[page] ||
+        "Dashboard";
+
+
+    if(
+        page ===
+        "dashboard"
+    ){
+
+        updateDashboard();
+
+    }
+
+
+    if(
+        page ===
+        "reservations"
+    ){
+
+        loadBookings();
+
+    }
+
+
+    if(
+        page ===
+        "rooms"
+    ){
+
+        loadRooms();
+
+    }
+
+}
+
+
+/* =====================================================
+   NAVIGATION CLICK
+===================================================== */
+
+document.querySelectorAll(
+    ".nav-item[data-page]"
+)
+.forEach(item => {
+
+    item.addEventListener(
+        "click",
+        function(){
+
+            showPage(
+                this.dataset.page
+            );
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal(){
+
+    document.getElementById(
+        "bookingModal"
+    )
+    .classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   CLICK OUTSIDE MODAL
+===================================================== */
+
+document.getElementById(
+    "bookingModal"
+)
+.addEventListener(
+    "click",
+    function(e){
+
+        if(
+            e.target ===
+            this
+        ){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+
+    if(confirmed){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        updateDashboard();
+
+        loadBookings();
+
+        loadRooms();
+
+    }
+);
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+setInterval(
+    function(){
+
+        updateDashboard();
+
+        loadRooms();
+
+
+        const reservationPage =
+            document.getElementById(
+                "reservations"
+            );
+
+
+        if(
+            reservationPage &&
+            reservationPage.classList.contains(
+                "active"
+            )
+        ){
+
+            loadBookings();
+
+        }
+
+    },
+    5000
+);
+
+</script>
+
+
+</body>
+
+</html>

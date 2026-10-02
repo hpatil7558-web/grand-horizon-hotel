@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Grand Horizon | Payments</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #0b1f3a;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h2 {
+            font-size: 22px;
+        }
+
+        .logo p {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 5px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 7px;
+            border-radius: 8px;
+            color: #dbe4f0;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #163b67;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 25px;
+            display: inline-block;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .topbar p {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .back-btn {
+            background: #0b1f3a;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+        }
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .stat-card h3 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        .stat-card p {
+            color: #6b7280;
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        input,
+        select {
+            padding: 11px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+            border: none;
+            padding: 10px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #0b1f3a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #163b67;
+        }
+
+        .btn-paid {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-paid:hover {
+            background: #15803d;
+        }
+
+        .btn-disabled {
+            background: #e5e7eb;
+            color: #6b7280;
+            cursor: default;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .guest-name {
+            font-weight: bold;
+        }
+
+        .guest-email {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .amount {
+            font-weight: bold;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status.paid {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+            color: #6b7280;
+        }
+
+        .empty h3 {
+            margin-bottom: 8px;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            width: 500px;
+            max-width: 90%;
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .modal-box h2 {
+            margin-bottom: 20px;
+            color: #0b1f3a;
+        }
+
+        .close {
+            position: absolute;
+            right: 18px;
+            top: 15px;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .detail {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail strong {
+            display: inline-block;
+            width: 140px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 1050px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media(max-width: 700px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .logo h2,
+            .logo p,
+            .nav-item span:not(.nav-icon) {
+                display: none;
+            }
+
+            .nav-item {
+                text-align: center;
+                padding: 13px 5px;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 20px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            input,
+            select {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <h2>Grand Horizon</h2>
+
+        <p>Hotel Management</p>
+
+    </div>
+
+
+    <a href="admin.html" class="nav-item">
+
+        <span class="nav-icon">📊</span>
+
+        <span>Dashboard</span>
+
+    </a>
+
+
+    <a href="admin.html" class="nav-item">
+
+        <span class="nav-icon">📅</span>
+
+        <span>Reservations</span>
+
+    </a>
+
+
+    <a href="admin.html" class="nav-item">
+
+        <span class="nav-icon">🛏️</span>
+
+        <span>Rooms</span>
+
+    </a>
+
+
+    <a href="guests.html" class="nav-item">
+
+        <span class="nav-icon">👥</span>
+
+        <span>Guests</span>
+
+    </a>
+
+
+    <a href="payments.html" class="nav-item active">
+
+        <span class="nav-icon">💳</span>
+
+        <span>Payments</span>
+
+    </a>
+
+
+    <a href="reports.html" class="nav-item">
+
+        <span class="nav-icon">📈</span>
+
+        <span>Reports</span>
+
+    </a>
+
+
+    <a href="settings.html" class="nav-item">
+
+        <span class="nav-icon">⚙️</span>
+
+        <span>Settings</span>
+
+    </a>
+
+
+    <a href="index.html" class="nav-item">
+
+        <span class="nav-icon">🌐</span>
+
+        <span>View Website</span>
+
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>Payment Management</h1>
+
+            <p>
+                Track and manage all guest payments.
+            </p>
+
+        </div>
+
+
+        <a
+            href="admin.html"
+            class="back-btn"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <h3 id="totalPayments">
+                ₹0
+            </h3>
+
+            <p>Total Revenue</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3 id="paidAmount">
+                ₹0
+            </h3>
+
+            <p>Paid Amount</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3 id="pendingAmount">
+                ₹0
+            </h3>
+
+            <p>Pending Amount</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3 id="paymentCount">
+                0
+            </h3>
+
+            <p>Total Transactions</p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PAYMENT TABLE
+    ================================================== -->
+
+    <section class="card">
+
+
+        <div class="card-header">
+
+            <h2>Payment Transactions</h2>
+
+
+            <div class="actions">
+
+                <input
+                    type="text"
+                    id="searchPayment"
+                    placeholder="Search guest or booking ID..."
+                    oninput="searchPayments()"
+                >
+
+
+                <select
+                    id="paymentFilter"
+                    onchange="filterPayments()"
+                >
+
+                    <option value="all">
+                        All Payments
+                    </option>
+
+                    <option value="Paid">
+                        Paid
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="btn btn-primary"
+                    onclick="loadPayments()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Booking</th>
+
+                        <th>Guest</th>
+
+                        <th>Room</th>
+
+                        <th>Amount</th>
+
+                        <th>Payment Method</th>
+
+                        <th>Status</th>
+
+                        <th>Date</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="paymentTableBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     PAYMENT DETAILS MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="paymentModal"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeModal()"
+        >
+            ×
+        </button>
+
+
+        <h2>Payment Details</h2>
+
+
+        <div id="paymentDetails"></div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+// =====================================================
+// GET BOOKINGS
+// =====================================================
+
+function getBookings() {
+
+    return JSON.parse(
+        localStorage.getItem("hotelBookings")
+    ) || [];
+
+}
+
+
+// =====================================================
+// GET PAYMENT DATA
+// =====================================================
+
+function getPayments() {
+
+    return JSON.parse(
+        localStorage.getItem("hotelPayments")
+    ) || [];
+
+}
+
+
+// =====================================================
+// CREATE PAYMENT RECORDS FROM BOOKINGS
+// =====================================================
+
+function syncPayments() {
+
+    const bookings = getBookings();
+
+    let payments = getPayments();
+
+
+    bookings.forEach(booking => {
+
+        const existingPayment =
+            payments.find(
+                payment =>
+                    payment.bookingId === booking.id
+            );
+
+
+        if (!existingPayment) {
+
+            payments.push({
+
+                id:
+                    "PAY" +
+                    Date.now()
+                        .toString()
+                        .slice(-6) +
+                    Math.floor(
+                        Math.random() * 100
+                    ),
+
+                bookingId:
+                    booking.id,
+
+                guest:
+                    booking.guest ||
+                    (
+                        (booking.firstName || "") +
+                        " " +
+                        (booking.lastName || "")
+                    ).trim(),
+
+                email:
+                    booking.email || "",
+
+                room:
+                    booking.room || "",
+
+                amount:
+                    Number(booking.total) || 0,
+
+                method:
+                    "Not Selected",
+
+                status:
+                    booking.paymentStatus ||
+                    "Pending",
+
+                date:
+                    booking.createdAt ||
+                    new Date().toISOString()
+
+            });
+
+        }
+
+    });
+
+
+    localStorage.setItem(
+        "hotelPayments",
+        JSON.stringify(payments)
+    );
+
+}
+
+
+// =====================================================
+// LOAD PAYMENTS
+// =====================================================
+
+function loadPayments() {
+
+    syncPayments();
+
+
+    const payments = getPayments();
+
+    const table =
+        document.getElementById(
+            "paymentTableBody"
+        );
+
+
+    table.innerHTML = "";
+
+
+    if (payments.length === 0) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="8">
+
+                    <div class="empty">
+
+                        <h3>
+                            No payment records found
+                        </h3>
+
+                        <p>
+                            Payment records will appear
+                            here after a booking is created.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        updateStats(payments);
+
+        return;
+
+    }
+
+
+    payments
+        .slice()
+        .reverse()
+        .forEach(payment => {
+
+            const row =
+                document.createElement("tr");
+
+
+            const status =
+                payment.status || "Pending";
+
+
+            const isPaid =
+                status === "Paid";
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    <strong>
+                        ${escapeHTML(
+                            payment.bookingId
+                        )}
+                    </strong>
+
+                </td>
+
+
+                <td>
+
+                    <div class="guest-name">
+
+                        ${escapeHTML(
+                            payment.guest
+                        )}
+
+                    </div>
+
+                    <div class="guest-email">
+
+                        ${escapeHTML(
+                            payment.email
+                        )}
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        payment.room || "-"
+                    )}
+
+                </td>
+
+
+                <td class="amount">
+
+                    ₹${Number(
+                        payment.amount || 0
+                    ).toLocaleString("en-IN")}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        payment.method ||
+                        "Not Selected"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <span class="status ${
+                        isPaid
+                            ? "paid"
+                            : "pending"
+                    }">
+
+                        ${escapeHTML(status)}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    ${formatDate(
+                        payment.date
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="btn ${
+                            isPaid
+                                ? "btn-disabled"
+                                : "btn-paid"
+                        }"
+                        ${
+                            isPaid
+                                ? "disabled"
+                                : ""
+                        }
+                        onclick="markAsPaid('${escapeHTML(payment.bookingId)}')"
+                    >
+
+                        ${
+                            isPaid
+                                ? "✓ Paid"
+                                : "Mark Paid"
+                        }
+
+                    </button>
+
+
+                    <button
+                        class="view-btn"
+                        style="
+                            margin-left:5px;
+                            border:none;
+                            padding:9px 12px;
+                            border-radius:7px;
+                            cursor:pointer;
+                        "
+                        onclick="viewPayment('${escapeHTML(payment.bookingId)}')"
+                    >
+                        View
+                    </button>
+
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        });
+
+
+    updateStats(payments);
+
+}
+
+
+// =====================================================
+// UPDATE STATISTICS
+// =====================================================
+
+function updateStats(payments) {
+
+    let total =
+        0;
+
+    let paid =
+        0;
+
+    let pending =
+        0;
+
+
+    payments.forEach(payment => {
+
+        const amount =
+            Number(payment.amount) || 0;
+
+
+        total += amount;
+
+
+        if (payment.status === "Paid") {
+
+            paid += amount;
+
+        } else {
+
+            pending += amount;
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "totalPayments"
+    ).textContent =
+        "₹" +
+        total.toLocaleString("en-IN");
+
+
+    document.getElementById(
+        "paidAmount"
+    ).textContent =
+        "₹" +
+        paid.toLocaleString("en-IN");
+
+
+    document.getElementById(
+        "pendingAmount"
+    ).textContent =
+        "₹" +
+        pending.toLocaleString("en-IN");
+
+
+    document.getElementById(
+        "paymentCount"
+    ).textContent =
+        payments.length;
+
+}
+
+
+// =====================================================
+// MARK PAYMENT AS PAID
+// =====================================================
+
+function markAsPaid(bookingId) {
+
+    const payments =
+        getPayments();
+
+
+    const paymentIndex =
+        payments.findIndex(
+            payment =>
+                payment.bookingId === bookingId
+        );
+
+
+    if (paymentIndex === -1) {
+
+        alert(
+            "Payment record not found."
+        );
+
+        return;
+
+    }
+
+
+    const method =
+        prompt(
+            "Enter payment method:\n\n" +
+            "Example: Cash, UPI, Card, Net Banking",
+            "UPI"
+        );
+
+
+    if (method === null) {
+
+        return;
+
+    }
+
+
+    payments[paymentIndex].status =
+        "Paid";
+
+
+    payments[paymentIndex].method =
+        method.trim() ||
+        "Other";
+
+
+    payments[paymentIndex].paidDate =
+        new Date().toISOString();
+
+
+    localStorage.setItem(
+        "hotelPayments",
+        JSON.stringify(payments)
+    );
+
+
+    // =================================================
+    // UPDATE ORIGINAL BOOKING
+    // =================================================
+
+    const bookings =
+        getBookings();
+
+
+    const bookingIndex =
+        bookings.findIndex(
+            booking =>
+                booking.id === bookingId
+        );
+
+
+    if (bookingIndex !== -1) {
+
+        bookings[
+            bookingIndex
+        ].paymentStatus = "Paid";
+
+
+        bookings[
+            bookingIndex
+        ].paymentMethod =
+            method.trim() ||
+            "Other";
+
+
+        bookings[
+            bookingIndex
+        ].paymentDate =
+            new Date().toISOString();
+
+
+        localStorage.setItem(
+            "hotelBookings",
+            JSON.stringify(bookings)
+        );
+
+    }
+
+
+    alert(
+        "Payment marked as Paid successfully! ✓"
+    );
+
+
+    loadPayments();
+
+}
+
+
+// =====================================================
+// VIEW PAYMENT
+// =====================================================
+
+function viewPayment(bookingId) {
+
+    const payments =
+        getPayments();
+
+
+    const payment =
+        payments.find(
+            item =>
+                item.bookingId === bookingId
+        );
+
+
+    if (!payment) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "paymentDetails"
+    ).innerHTML = `
+
+        <div class="detail">
+
+            <strong>Payment ID:</strong>
+
+            ${escapeHTML(
+                payment.id
+            )}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Booking ID:</strong>
+
+            ${escapeHTML(
+                payment.bookingId
+            )}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Guest:</strong>
+
+            ${escapeHTML(
+                payment.guest
+            )}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Email:</strong>
+
+            ${escapeHTML(
+                payment.email
+            )}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Room:</strong>
+
+            ${escapeHTML(
+                payment.room
+            )}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Amount:</strong>
+
+            ₹${Number(
+                payment.amount || 0
+            ).toLocaleString("en-IN")}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Method:</strong>
+
+            ${escapeHTML(
+                payment.method ||
+                "Not Selected"
+            )}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Status:</strong>
+
+            ${escapeHTML(
+                payment.status ||
+                "Pending"
+            )}
+
+        </div>
+
+
+        <div class="detail">
+
+            <strong>Date:</strong>
+
+            ${formatDate(
+                payment.date
+            )}
+
+        </div>
+
+    `;
+
+
+    document
+        .getElementById("paymentModal")
+        .classList.add("show");
+
+}
+
+
+// =====================================================
+// SEARCH PAYMENTS
+// =====================================================
+
+function searchPayments() {
+
+    const search =
+        document
+            .getElementById("searchPayment")
+            .value
+            .toLowerCase();
+
+
+    const rows =
+        document.querySelectorAll(
+            "#paymentTableBody tr"
+        );
+
+
+    rows.forEach(row => {
+
+        const text =
+            row.textContent.toLowerCase();
+
+
+        row.style.display =
+            text.includes(search)
+                ? ""
+                : "none";
+
+    });
+
+}
+
+
+// =====================================================
+// FILTER PAYMENTS
+// =====================================================
+
+function filterPayments() {
+
+    const filter =
+        document.getElementById(
+            "paymentFilter"
+        ).value;
+
+
+    const rows =
+        document.querySelectorAll(
+            "#paymentTableBody tr"
+        );
+
+
+    rows.forEach(row => {
+
+        const statusElement =
+            row.querySelector(".status");
+
+
+        if (!statusElement) {
+
+            return;
+
+        }
+
+
+        const status =
+            statusElement.textContent.trim();
+
+
+        if (
+            filter === "all" ||
+            status === filter
+        ) {
+
+            row.style.display = "";
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+// =====================================================
+// CLOSE MODAL
+// =====================================================
+
+function closeModal() {
+
+    document
+        .getElementById("paymentModal")
+        .classList.remove("show");
+
+}
+
+
+// =====================================================
+// FORMAT DATE
+// =====================================================
+
+function formatDate(date) {
+
+    if (!date) {
+
+        return "-";
+
+    }
+
+
+    const d =
+        new Date(date);
+
+
+    if (isNaN(d.getTime())) {
+
+        return date;
+
+    }
+
+
+    return d.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value) {
+
+    if (
+        value === undefined ||
+        value === null
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// =====================================================
+// CLOSE MODAL OUTSIDE
+// =====================================================
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        const modal =
+            document.getElementById(
+                "paymentModal"
+            );
+
+
+        if (event.target === modal) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// START
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadPayments();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

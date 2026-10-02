@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Grand Horizon | Reports</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#1f2937;
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#102a43;
+    color:white;
+    padding:25px 15px;
+    z-index:1000;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.logo h2{
+    font-size:21px;
+}
+
+.logo p{
+    font-size:12px;
+    color:#bcccdc;
+    margin-top:5px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:13px 15px;
+    margin:5px 0;
+    color:#d9e2ec;
+    text-decoration:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    transition:.2s;
+}
+
+.nav-item:hover,
+.nav-item.active{
+    background:#1f4e79;
+    color:white;
+}
+
+.nav-icon{
+    width:23px;
+    text-align:center;
+}
+
+
+/* ================================
+   MAIN
+================================ */
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.topbar h1{
+    font-size:22px;
+}
+
+.admin-profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    background:#1f4e79;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+
+/* ================================
+   CONTENT
+================================ */
+
+.content{
+    padding:30px;
+}
+
+
+/* ================================
+   TOOLBAR
+================================ */
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.toolbar-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+select{
+    padding:11px 14px;
+    border:1px solid #d1d5db;
+    border-radius:7px;
+    background:white;
+    outline:none;
+}
+
+
+/* ================================
+   BUTTON
+================================ */
+
+.btn{
+    border:none;
+    background:#1f4e79;
+    color:white;
+    padding:10px 16px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.btn:hover{
+    background:#163b5c;
+}
+
+
+/* ================================
+   STATS
+================================ */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border-radius:12px;
+    padding:22px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    border:1px solid #edf0f4;
+}
+
+.stat-title{
+    color:#6b7280;
+    font-size:13px;
+}
+
+.stat-number{
+    font-size:27px;
+    font-weight:bold;
+    color:#102a43;
+    margin-top:10px;
+}
+
+.stat-sub{
+    color:#6b7280;
+    font-size:12px;
+    margin-top:7px;
+}
+
+
+/* ================================
+   PANELS
+================================ */
+
+.panel{
+    background:white;
+    border-radius:12px;
+    padding:22px;
+    margin-bottom:25px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    border:1px solid #edf0f4;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.panel-header h3{
+    font-size:17px;
+}
+
+
+/* ================================
+   TABLE
+================================ */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    color:#6b7280;
+    font-size:12px;
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+td{
+    padding:13px 12px;
+    font-size:13px;
+    border-bottom:1px solid #f0f1f3;
+}
+
+.badge{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.confirmed{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.cancelled{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.empty{
+    text-align:center;
+    padding:30px;
+    color:#6b7280;
+}
+
+
+/* ================================
+   CHART
+================================ */
+
+.chart-container{
+    width:100%;
+    height:320px;
+    position:relative;
+}
+
+canvas{
+    width:100% !important;
+    height:100% !important;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:768px){
+
+    .sidebar{
+        width:70px;
+        padding:20px 8px;
+    }
+
+    .logo h2,
+    .logo p,
+    .nav-item span:last-child{
+        display:none;
+    }
+
+    .nav-item{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================================
+     SIDEBAR
+================================ -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <h2>Grand Horizon</h2>
+
+        <p>Hotel Administration</p>
+
+    </div>
+
+
+    <a class="nav-item"
+       href="admin.html">
+
+        <span class="nav-icon">📊</span>
+
+        <span>Dashboard</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="admin.html">
+
+        <span class="nav-icon">📅</span>
+
+        <span>Reservations</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="admin.html">
+
+        <span class="nav-icon">🏨</span>
+
+        <span>Rooms</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="guests.html">
+
+        <span class="nav-icon">👥</span>
+
+        <span>Guests</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="payments.html">
+
+        <span class="nav-icon">💳</span>
+
+        <span>Payments</span>
+
+    </a>
+
+
+    <a class="nav-item active"
+       href="reports.html">
+
+        <span class="nav-icon">📈</span>
+
+        <span>Reports</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="settings.html">
+
+        <span class="nav-icon">⚙️</span>
+
+        <span>Settings</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       href="index.html">
+
+        <span class="nav-icon">🌐</span>
+
+        <span>View Website</span>
+
+    </a>
+
+
+    <a class="nav-item"
+       onclick="logout()">
+
+        <span class="nav-icon">🚪</span>
+
+        <span>Logout</span>
+
+    </a>
+
+</aside>
+
+
+
+<!-- ================================
+     MAIN
+================================ -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <h1>
+        Reports & Analytics
+    </h1>
+
+
+    <div class="admin-profile">
+
+        <strong>
+            Administrator
+        </strong>
+
+        <div class="avatar">
+            A
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<section class="content">
+
+
+<!-- ================================
+     TOOLBAR
+================================ -->
+
+<div class="toolbar">
+
+
+    <div class="toolbar-left">
+
+        <label>
+            Report Period:
+        </label>
+
+
+        <select id="reportPeriod"
+                onchange="generateReport()">
+
+            <option value="all">
+                All Time
+            </option>
+
+            <option value="month">
+                This Month
+            </option>
+
+            <option value="year">
+                This Year
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <button class="btn"
+            onclick="exportCSV()">
+
+        📥 Export CSV
+
+    </button>
+
+</div>
+
+
+
+<!-- ================================
+     STATS
+================================ -->
+
+<div class="stats">
+
+
+    <div class="stat-card">
+
+        <div class="stat-title">
+            Total Bookings
+        </div>
+
+        <div class="stat-number"
+             id="reportBookings">
+            0
+        </div>
+
+        <div class="stat-sub">
+            Reservations
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-title">
+            Revenue
+        </div>
+
+        <div class="stat-number"
+             id="reportRevenue">
+            ₹0
+        </div>
+
+        <div class="stat-sub">
+            Active bookings
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-title">
+            Average Booking
+        </div>
+
+        <div class="stat-number"
+             id="averageBooking">
+            ₹0
+        </div>
+
+        <div class="stat-sub">
+            Per reservation
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-title">
+            Paid Revenue
+        </div>
+
+        <div class="stat-number"
+             id="paidRevenue">
+            ₹0
+        </div>
+
+        <div class="stat-sub">
+            Completed payments
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================================
+     REVENUE CHART
+================================ -->
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <h3>
+            Monthly Revenue
+        </h3>
+
+    </div>
+
+
+    <div class="chart-container">
+
+        <canvas id="revenueChart"></canvas>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================
+     MONTHLY PERFORMANCE
+================================ -->
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <h3>
+            Monthly Performance
+        </h3>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Month
+                    </th>
+
+                    <th>
+                        Bookings
+                    </th>
+
+                    <th>
+                        Revenue
+                    </th>
+
+                    <th>
+                        Paid
+                    </th>
+
+                    <th>
+                        Pending
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="performanceTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================
+     BOOKING DETAILS
+================================ -->
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <h3>
+            Booking Report
+        </h3>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Booking ID
+                    </th>
+
+                    <th>
+                        Guest
+                    </th>
+
+                    <th>
+                        Room
+                    </th>
+
+                    <th>
+                        Check-in
+                    </th>
+
+                    <th>
+                        Check-out
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="bookingReport">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+
+<script>
+
+/* =====================================================
+   GET BOOKINGS
+===================================================== */
+
+function getBookings(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "hotelBookings"
+            )
+        ) || [];
+
+    }
+
+    catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   MONEY
+===================================================== */
+
+function money(value){
+
+    return "₹" +
+        Number(value || 0)
+        .toLocaleString("en-IN");
+
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(date){
+
+    if(!date){
+        return "-";
+    }
+
+    const d =
+        new Date(
+            date + "T00:00:00"
+        );
+
+    if(isNaN(d.getTime())){
+        return date;
+    }
+
+    return d.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FILTER BOOKINGS
+===================================================== */
+
+function getFilteredBookings(){
+
+    const bookings =
+        getBookings();
+
+
+    const period =
+        document.getElementById(
+            "reportPeriod"
+        ).value;
+
+
+    const now =
+        new Date();
+
+
+    return bookings.filter(
+        booking => {
+
+            if(
+                String(
+                    booking.status || ""
+                ).toLowerCase()
+                === "cancelled"
+            ){
+
+                return false;
+
+            }
+
+
+            if(!booking.checkIn){
+                return false;
+            }
+
+
+            const date =
+                new Date(
+                    booking.checkIn +
+                    "T00:00:00"
+                );
+
+
+            if(period === "month"){
+
+                return (
+                    date.getMonth()
+                    ===
+                    now.getMonth()
+
+                    &&
+
+                    date.getFullYear()
+                    ===
+                    now.getFullYear()
+                );
+
+            }
+
+
+            if(period === "year"){
+
+                return (
+                    date.getFullYear()
+                    ===
+                    now.getFullYear()
+                );
+
+            }
+
+
+            return true;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   GENERATE REPORT
+===================================================== */
+
+function generateReport(){
+
+    const bookings =
+        getFilteredBookings();
+
+
+    /* TOTAL BOOKINGS */
+
+    document.getElementById(
+        "reportBookings"
+    ).textContent =
+        bookings.length;
+
+
+    /* TOTAL REVENUE */
+
+    const revenue =
+        bookings.reduce(
+            (sum,b) =>
+                sum +
+                Number(
+                    b.total || 0
+                ),
+            0
+        );
+
+
+    document.getElementById(
+        "reportRevenue"
+    ).textContent =
+        money(revenue);
+
+
+    /* AVERAGE */
+
+    const average =
+        bookings.length
+        ?
+        revenue / bookings.length
+        :
+        0;
+
+
+    document.getElementById(
+        "averageBooking"
+    ).textContent =
+        money(average);
+
+
+    /* PAID */
+
+    const paidRevenue =
+        bookings
+        .filter(b =>
+
+            String(
+                b.paymentStatus ||
+                "Pending"
+            ).toLowerCase()
+            ===
+            "paid"
+
+        )
+        .reduce(
+            (sum,b) =>
+                sum +
+                Number(
+                    b.total || 0
+                ),
+            0
+        );
+
+
+    document.getElementById(
+        "paidRevenue"
+    ).textContent =
+        money(paidRevenue);
+
+
+    generateMonthlyPerformance(
+        bookings
+    );
+
+    generateBookingReport(
+        bookings
+    );
+
+    drawRevenueChart(
+        bookings
+    );
+
+}
+
+
+/* =====================================================
+   MONTHLY PERFORMANCE
+===================================================== */
+
+function generateMonthlyPerformance(
+    bookings
+){
+
+    const months = [
+
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+
+    ];
+
+
+    const data = months.map(
+        month => ({
+
+            month,
+
+            bookings:0,
+
+            revenue:0,
+
+            paid:0,
+
+            pending:0
+
+        })
+    );
+
+
+    bookings.forEach(
+        booking => {
+
+            if(!booking.checkIn){
+                return;
+            }
+
+
+            const date =
+                new Date(
+                    booking.checkIn +
+                    "T00:00:00"
+                );
+
+
+            const monthIndex =
+                date.getMonth();
+
+
+            data[monthIndex]
+                .bookings++;
+
+
+            data[monthIndex]
+                .revenue +=
+                Number(
+                    booking.total || 0
+                );
+
+
+            if(
+                String(
+                    booking.paymentStatus ||
+                    "Pending"
+                ).toLowerCase()
+                ===
+                "paid"
+            ){
+
+                data[monthIndex]
+                    .paid +=
+                    Number(
+                        booking.total || 0
+                    );
+
+            }
+
+            else{
+
+                data[monthIndex]
+                    .pending +=
+                    Number(
+                        booking.total || 0
+                    );
+
+            }
+
+        }
+    );
+
+
+    const tbody =
+        document.getElementById(
+            "performanceTable"
+        );
+
+
+    const currentYear =
+        new Date()
+        .getFullYear();
+
+
+    const used =
+        data.filter(
+            item =>
+                item.bookings > 0
+        );
+
+
+    if(!used.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="5"
+                    class="empty">
+
+                    No report data available.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        used.map(
+            item => `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${item.month}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${item.bookings}
+                    </td>
+
+                    <td>
+                        ${money(
+                            item.revenue
+                        )}
+                    </td>
+
+                    <td>
+                        ${money(
+                            item.paid
+                        )}
+                    </td>
+
+                    <td>
+                        ${money(
+                            item.pending
+                        )}
+                    </td>
+
+                </tr>
+
+            `
+        ).join("");
+
+}
+
+
+/* =====================================================
+   BOOKING REPORT
+===================================================== */
+
+function generateBookingReport(
+    bookings
+){
+
+    const tbody =
+        document.getElementById(
+            "bookingReport"
+        );
+
+
+    if(!bookings.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="7"
+                    class="empty">
+
+                    No bookings available.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        [...bookings]
+        .reverse()
+        .map(
+            booking => {
+
+                const guest =
+                    booking.guest ||
+                    (
+                        (booking.firstName || "") +
+                        " " +
+                        (booking.lastName || "")
+                    ).trim();
+
+
+                const status =
+                    booking.status ||
+                    "Confirmed";
+
+
+                const statusClass =
+                    status.toLowerCase()
+                    === "cancelled"
+                    ?
+                    "cancelled"
+                    :
+                    "confirmed";
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                ${escapeHTML(
+                                    booking.id
+                                )}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                guest
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                booking.room
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${formatDate(
+                                booking.checkIn
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${formatDate(
+                                booking.checkOut
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ${money(
+                                    booking.total
+                                )}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="badge ${statusClass}">
+
+                                ${escapeHTML(
+                                    status
+                                )}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   REVENUE CHART
+===================================================== */
+
+function drawRevenueChart(
+    bookings
+){
+
+    const canvas =
+        document.getElementById(
+            "revenueChart"
+        );
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const width =
+        canvas.clientWidth;
+
+
+    const height =
+        canvas.clientHeight;
+
+
+    const ratio =
+        window.devicePixelRatio ||
+        1;
+
+
+    canvas.width =
+        width * ratio;
+
+
+    canvas.height =
+        height * ratio;
+
+
+    ctx.scale(
+        ratio,
+        ratio
+    );
+
+
+    const months = [
+
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+
+    ];
+
+
+    const revenue =
+        new Array(12)
+        .fill(0);
+
+
+    bookings.forEach(
+        booking => {
+
+            if(!booking.checkIn){
+                return;
+            }
+
+
+            const date =
+                new Date(
+                    booking.checkIn +
+                    "T00:00:00"
+                );
+
+
+            revenue[
+                date.getMonth()
+            ] +=
+                Number(
+                    booking.total || 0
+                );
+
+        }
+    );
+
+
+    const max =
+        Math.max(
+            ...revenue,
+            100
+        );
+
+
+    const padding = 45;
+
+    const chartWidth =
+        width -
+        padding * 2;
+
+    const chartHeight =
+        height -
+        padding * 2;
+
+
+    /* CLEAR */
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /* AXIS */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        padding,
+        padding
+    );
+
+    ctx.lineTo(
+        padding,
+        height - padding
+    );
+
+    ctx.lineTo(
+        width - padding,
+        height - padding
+    );
+
+    ctx.strokeStyle =
+        "#d1d5db";
+
+    ctx.stroke();
+
+
+    /* HORIZONTAL GRID */
+
+    for(
+        let i=0;
+        i<=4;
+        i++
+    ){
+
+        const y =
+            padding +
+            (
+                chartHeight *
+                i / 4
+            );
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            padding,
+            y
+        );
+
+        ctx.lineTo(
+            width - padding,
+            y
+        );
+
+        ctx.strokeStyle =
+            "#edf0f4";
+
+        ctx.stroke();
+
+    }
+
+
+    /* BAR WIDTH */
+
+    const barWidth =
+        chartWidth / 12 * 0.55;
+
+
+    revenue.forEach(
+        (value,index) => {
+
+            const x =
+                padding +
+                (
+                    chartWidth /
+                    12 *
+                    index
+                ) +
+                (
+                    chartWidth /
+                    12 -
+                    barWidth
+                ) / 2;
+
+
+            const barHeight =
+                (
+                    value / max
+                ) *
+                chartHeight;
+
+
+            const y =
+                height -
+                padding -
+                barHeight;
+
+
+            ctx.fillStyle =
+                "#1f4e79";
+
+
+            ctx.fillRect(
+                x,
+                y,
+                barWidth,
+                barHeight
+            );
+
+
+            /* MONTH */
+
+            ctx.fillStyle =
+                "#6b7280";
+
+
+            ctx.font =
+                "11px Arial";
+
+
+            ctx.textAlign =
+                "center";
+
+
+            ctx.fillText(
+                months[index],
+                x + barWidth / 2,
+                height - 18
+            );
+
+
+            /* VALUE */
+
+            if(value > 0){
+
+                ctx.fillStyle =
+                    "#102a43";
+
+
+                ctx.font =
+                    "10px Arial";
+
+
+                ctx.fillText(
+                    "₹" +
+                    Math.round(
+                        value / 1000
+                    ) +
+                    "K",
+                    x + barWidth / 2,
+                    y - 7
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   EXPORT CSV
+===================================================== */
+
+function exportCSV(){
+
+    const bookings =
+        getFilteredBookings();
+
+
+    if(!bookings.length){
+
+        alert(
+            "No booking data available to export."
+        );
+
+        return;
+
+    }
+
+
+    let csv =
+        "Booking ID,Guest,Email,Room,Check-in,Check-out,Guests,Nights,Total,Status,Payment Status\n";
+
+
+    bookings.forEach(
+        booking => {
+
+            const guest =
+                booking.guest ||
+                (
+                    (booking.firstName || "") +
+                    " " +
+                    (booking.lastName || "")
+                ).trim();
+
+
+            csv += [
+
+                booking.id,
+
+                guest,
+
+                booking.email,
+
+                booking.room,
+
+                booking.checkIn,
+
+                booking.checkOut,
+
+                booking.guests,
+
+                booking.nights,
+
+                booking.total,
+
+                booking.status ||
+                "Confirmed",
+
+                booking.paymentStatus ||
+                "Pending"
+
+            ]
+            .map(
+                value =>
+                    `"${String(
+                        value ?? ""
+                    ).replace(
+                        /"/g,
+                        '""'
+                    )}"`
+            )
+            .join(",")
+            +
+            "\n";
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        "grand-horizon-report.csv";
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+        link
+    );
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    if(
+        confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        generateReport();
+
+    }
+);
+
+
+/* =====================================================
+   WINDOW RESIZE
+===================================================== */
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        drawRevenueChart(
+            getFilteredBookings()
+        );
+
+    }
+);
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+setInterval(
+    function(){
+
+        generateReport();
+
+    },
+    5000
+);
+
+</script>
+
+
+</body>
+
+</html>

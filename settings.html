@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | Grand Horizon Hotel & Resort</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 15px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #374151;
+            margin-bottom: 25px;
+        }
+
+        .logo h2 {
+            color: #d4af37;
+            font-size: 21px;
+        }
+
+        .logo p {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .menu-title {
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: bold;
+            margin: 20px 12px 10px;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #d1d5db;
+            padding: 13px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #d4af37;
+            color: #111827;
+        }
+
+        .nav-link span {
+            font-size: 19px;
+            width: 24px;
+        }
+
+        .nav-link strong {
+            font-size: 14px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .topbar {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+            color: #111827;
+        }
+
+        .topbar p {
+            color: #6b7280;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-icon {
+            width: 42px;
+            height: 42px;
+            background: #111827;
+            color: #d4af37;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .admin-profile strong {
+            font-size: 14px;
+        }
+
+        .admin-profile small {
+            display: block;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        /* ================= SETTINGS GRID ================= */
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+        }
+
+        .settings-card.full {
+            grid-column: 1 / -1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #fff8df;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 21px;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            color: #111827;
+        }
+
+        .card-header p {
+            font-size: 12px;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        /* ================= TOGGLE ================= */
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h3 {
+            font-size: 14px;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            font-size: 12px;
+            color: #777;
+            line-height: 1.5;
+            max-width: 450px;
+        }
+
+        .switch {
+            position: relative;
+            width: 48px;
+            height: 25px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #d1d5db;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .switch input:checked + .slider {
+            background: #d4af37;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(23px);
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .button-area {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-save {
+            background: #111827;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #d4af37;
+            color: #111827;
+        }
+
+        .btn-reset {
+            background: #eee;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #ddd;
+        }
+
+        /* ================= SECURITY ================= */
+
+        .security-box {
+            background: #f9fafb;
+            border: 1px solid #eee;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .security-box strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .security-box p {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .security-btn {
+            background: #111827;
+            color: white;
+            padding: 9px 15px;
+            font-size: 12px;
+        }
+
+        .danger-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 9px 15px;
+            font-size: 12px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            padding: 30px 0 10px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 1000px) {
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-card.full {
+                grid-column: auto;
+            }
+        }
+
+        @media(max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .button-area {
+                justify-content: stretch;
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <h2>Grand Horizon</h2>
+        <p>Hotel & Resort</p>
+    </div>
+
+    <div class="menu-title">Main Menu</div>
+
+    <a href="admin.html" class="nav-link">
+        <span>📊</span>
+        <strong>Dashboard</strong>
+    </a>
+
+    <a href="admin.html" class="nav-link">
+        <span>📅</span>
+        <strong>Reservations</strong>
+    </a>
+
+    <a href="admin.html" class="nav-link">
+        <span>🛏️</span>
+        <strong>Rooms</strong>
+    </a>
+
+    <a href="guests.html" class="nav-link">
+        <span>👥</span>
+        <strong>Guests</strong>
+    </a>
+
+    <a href="payments.html" class="nav-link">
+        <span>💳</span>
+        <strong>Payments</strong>
+    </a>
+
+    <a href="reports.html" class="nav-link">
+        <span>📈</span>
+        <strong>Reports</strong>
+    </a>
+
+    <div class="menu-title">System</div>
+
+    <a href="settings.html" class="nav-link active">
+        <span>⚙️</span>
+        <strong>Settings</strong>
+    </a>
+
+    <a href="index.html" class="nav-link">
+        <span>🌐</span>
+        <strong>View Website</strong>
+    </a>
+
+    <a href="login.html" class="nav-link" onclick="logout()">
+        <span>🚪</span>
+        <strong>Logout</strong>
+    </a>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+            <h1>⚙️ Settings</h1>
+            <p>Manage hotel information and system preferences</p>
+        </div>
+
+        <div class="admin-profile">
+            <div class="profile-icon">👨‍💼</div>
+
+            <div>
+                <strong>Administrator</strong>
+                <small>Hotel Manager</small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= SETTINGS ================= -->
+
+    <div class="settings-grid">
+
+
+        <!-- HOTEL INFORMATION -->
+
+        <div class="settings-card full">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🏨
+                </div>
+
+                <div>
+                    <h2>Hotel Information</h2>
+                    <p>Basic information about your hotel</p>
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Hotel Name</label>
+
+                    <input
+                        type="text"
+                        id="hotelName"
+                        value="Grand Horizon Hotel & Resort"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Hotel Email</label>
+
+                    <input
+                        type="email"
+                        id="hotelEmail"
+                        value="info@grandhorizon.com"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Phone Number</label>
+
+                    <input
+                        type="text"
+                        id="hotelPhone"
+                        value="+91 98765 43210"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Website</label>
+
+                    <input
+                        type="text"
+                        id="hotelWebsite"
+                        value="www.grandhorizon.com"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>City</label>
+
+                    <input
+                        type="text"
+                        value="Mumbai"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Country</label>
+
+                    <input
+                        type="text"
+                        value="India"
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>Hotel Address</label>
+
+                    <textarea>Grand Horizon Hotel & Resort,
+Mumbai, Maharashtra, India</textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button class="btn-reset" onclick="resetHotel()">
+                    Reset
+                </button>
+
+                <button class="btn-save" onclick="saveHotel()">
+                    Save Hotel Information
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🔔
+                </div>
+
+                <div>
+                    <h2>Notifications</h2>
+                    <p>Manage system notifications</p>
+                </div>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Email Notifications</h3>
+
+                    <p>
+                        Receive important hotel notifications through email.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>New Booking Alerts</h3>
+
+                    <p>
+                        Get notified whenever a new reservation is created.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Payment Alerts</h3>
+
+                    <p>
+                        Receive alerts for successful and failed payments.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Guest Messages</h3>
+
+                    <p>
+                        Receive notifications when guests contact the hotel.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BOOKING SETTINGS -->
+
+        <div class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    📅
+                </div>
+
+                <div>
+                    <h2>Booking Settings</h2>
+                    <p>Configure reservation rules</p>
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Check-in Time</label>
+
+                <input type="time" value="14:00">
+
+            </div>
+
+            <br>
+
+            <div class="form-group">
+
+                <label>Check-out Time</label>
+
+                <input type="time" value="11:00">
+
+            </div>
+
+            <br>
+
+            <div class="form-group">
+
+                <label>Maximum Guests Per Room</label>
+
+                <select>
+
+                    <option>2 Guests</option>
+                    <option selected>4 Guests</option>
+                    <option>6 Guests</option>
+                    <option>8 Guests</option>
+
+                </select>
+
+            </div>
+
+            <br>
+
+            <div class="form-group">
+
+                <label>Booking Cancellation Period</label>
+
+                <select>
+
+                    <option>24 Hours</option>
+                    <option selected>48 Hours</option>
+                    <option>72 Hours</option>
+                    <option>7 Days</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PAYMENT SETTINGS -->
+
+        <div class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    💳
+                </div>
+
+                <div>
+                    <h2>Payment Settings</h2>
+                    <p>Configure payment preferences</p>
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Currency</label>
+
+                <select>
+
+                    <option selected>Indian Rupee (₹)</option>
+                    <option>US Dollar ($)</option>
+                    <option>Euro (€)</option>
+                    <option>British Pound (£)</option>
+
+                </select>
+
+            </div>
+
+            <br>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Online Payments</h3>
+
+                    <p>
+                        Allow guests to pay online while booking rooms.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>UPI Payments</h3>
+
+                    <p>
+                        Accept payments through UPI.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Card Payments</h3>
+
+                    <p>
+                        Accept debit and credit card payments.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SYSTEM SETTINGS -->
+
+        <div class="settings-card">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🖥️
+                </div>
+
+                <div>
+                    <h2>System Preferences</h2>
+                    <p>General system configuration</p>
+                </div>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Automatic Room Updates</h3>
+
+                    <p>
+                        Automatically update room availability after booking.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Automatic Payment Confirmation</h3>
+
+                    <p>
+                        Automatically confirm successful payments.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox" checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+
+                    <h3>Maintenance Mode</h3>
+
+                    <p>
+                        Temporarily disable public hotel booking.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SECURITY -->
+
+        <div class="settings-card full">
+
+            <div class="card-header">
+
+                <div class="card-icon">
+                    🔐
+                </div>
+
+                <div>
+                    <h2>Security</h2>
+                    <p>Manage administrator security settings</p>
+                </div>
+
+            </div>
+
+
+            <div class="security-box">
+
+                <strong>Change Administrator Password</strong>
+
+                <p>
+                    Update the password used to access the hotel administration panel.
+                </p>
+
+                <button
+                    class="security-btn"
+                    onclick="changePassword()"
+                >
+                    Change Password
+                </button>
+
+            </div>
+
+
+            <div class="security-box">
+
+                <strong>Administrator Session</strong>
+
+                <p>
+                    You are currently logged in as Administrator.
+                </p>
+
+                <button
+                    class="danger-btn"
+                    onclick="logout()"
+                >
+                    Logout From Account
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        © 2026 Grand Horizon Hotel & Resort | Admin Panel
+    </div>
+
+</main>
+
+
+<script>
+
+    /* SAVE HOTEL */
+
+    function saveHotel() {
+
+        const name =
+            document.getElementById("hotelName").value;
+
+        const email =
+            document.getElementById("hotelEmail").value;
+
+        const phone =
+            document.getElementById("hotelPhone").value;
+
+        if (
+            name.trim() === "" ||
+            email.trim() === "" ||
+            phone.trim() === ""
+        ) {
+
+            alert("Please fill all required hotel information.");
+
+            return;
+        }
+
+        localStorage.setItem(
+            "hotelName",
+            name
+        );
+
+        localStorage.setItem(
+            "hotelEmail",
+            email
+        );
+
+        localStorage.setItem(
+            "hotelPhone",
+            phone
+        );
+
+        alert("Hotel information saved successfully! ✅");
+    }
+
+
+    /* RESET */
+
+    function resetHotel() {
+
+        document.getElementById("hotelName").value =
+            "Grand Horizon Hotel & Resort";
+
+        document.getElementById("hotelEmail").value =
+            "info@grandhorizon.com";
+
+        document.getElementById("hotelPhone").value =
+            "+91 98765 43210";
+
+        document.getElementById("hotelWebsite").value =
+            "www.grandhorizon.com";
+
+        alert("Hotel information has been reset.");
+    }
+
+
+    /* CHANGE PASSWORD */
+
+    function changePassword() {
+
+        const newPassword =
+            prompt("Enter your new administrator password:");
+
+        if (!newPassword) {
+            return;
+        }
+
+        if (newPassword.length < 6) {
+
+            alert(
+                "Password must contain at least 6 characters."
+            );
+
+            return;
+        }
+
+        localStorage.setItem(
+            "adminPassword",
+            newPassword
+        );
+
+        alert(
+            "Administrator password updated successfully! 🔐"
+        );
+    }
+
+
+    /* LOGOUT */
+
+    function logout() {
+
+        const confirmLogout =
+            confirm(
+                "Are you sure you want to logout?"
+            );
+
+        if (confirmLogout) {
+
+            window.location.href =
+                "login.html";
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Grand Horizon | Booking</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #0b1f3a;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #cbd5e1;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .page-hero {
+            background:
+                linear-gradient(
+                    rgba(11, 31, 58, 0.88),
+                    rgba(11, 31, 58, 0.88)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+
+            padding: 75px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .page-hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p {
+            font-size: 17px;
+            color: #dbe4f0;
+        }
+
+        /* =========================
+           BOOKING CONTAINER
+        ========================= */
+
+        .booking-container {
+            max-width: 1150px;
+            margin: 50px auto;
+            padding: 0 20px;
+
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .booking-card,
+        .summary-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .booking-card h2,
+        .summary-card h2 {
+            color: #0b1f3a;
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* =========================
+           AVAILABILITY BOX
+        ========================= */
+
+        .availability-box {
+            display: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 5px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .availability-box.available {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .availability-box.unavailable {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .availability-box.info {
+            display: block;
+            background: #e0f2fe;
+            color: #075985;
+            border: 1px solid #7dd3fc;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+
+            background: #0b1f3a;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #163b67;
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary-card {
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            font-size: 14px;
+            gap: 15px;
+        }
+
+        .summary-item span:first-child {
+            color: #6b7280;
+        }
+
+        .summary-item strong {
+            text-align: right;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+
+            padding-top: 20px;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            color: #0b1f3a;
+        }
+
+        .price-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #0b1f3a;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 850px) {
+
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                position: static;
+            }
+
+        }
+
+        @media(max-width: 600px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 7px;
+            }
+
+            .page-hero h1 {
+                font-size: 32px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-card,
+            .summary-card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="logo">
+        Grand Horizon
+    </div>
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="rooms.html">Rooms</a>
+
+        <a href="booking.html">Booking</a>
+
+        <a href="login.html">Login</a>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="page-hero">
+
+    <h1>Make a Reservation</h1>
+
+    <p>
+        Book your stay at Grand Horizon Hotel & Resort
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     BOOKING AREA
+===================================================== -->
+
+<div class="booking-container">
+
+
+    <!-- =================================================
+         BOOKING FORM
+    ================================================== -->
+
+    <div class="booking-card">
+
+        <h2>Booking Details</h2>
+
+
+        <form id="bookingForm">
+
+
+            <!-- DATE -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="check-in">
+                        Check-in <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        id="check-in"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="check-out">
+                        Check-out <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        id="check-out"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- ROOM / GUEST -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="room-type">
+                        Room Type <span class="required">*</span>
+                    </label>
+
+                    <select id="room-type" required>
+
+                        <option value="">
+                            Select Room
+                        </option>
+
+                        <option value="Deluxe Room">
+                            Deluxe Room - ₹4,999
+                        </option>
+
+                        <option value="Executive Room">
+                            Executive Room - ₹6,999
+                        </option>
+
+                        <option value="Luxury Suite">
+                            Luxury Suite - ₹9,999
+                        </option>
+
+                        <option value="Presidential Suite">
+                            Presidential Suite - ₹14,999
+                        </option>
+
+                        <option value="Family Room">
+                            Family Room - ₹7,499
+                        </option>
+
+                        <option value="Ocean View Room">
+                            Ocean View Room - ₹8,499
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="guests">
+                        Guests <span class="required">*</span>
+                    </label>
+
+                    <select id="guests" required>
+
+                        <option value="1">
+                            1 Guest
+                        </option>
+
+                        <option value="2" selected>
+                            2 Guests
+                        </option>
+
+                        <option value="3">
+                            3 Guests
+                        </option>
+
+                        <option value="4">
+                            4 Guests
+                        </option>
+
+                        <option value="5">
+                            5 Guests
+                        </option>
+
+                        <option value="6">
+                            6 Guests
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- AVAILABILITY MESSAGE -->
+
+            <div
+                id="availabilityBox"
+                class="availability-box"
+            ></div>
+
+
+            <!-- GUEST INFORMATION -->
+
+            <h2 style="margin-top:25px;">
+                Guest Information
+            </h2>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="first-name">
+                        First Name <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="first-name"
+                        placeholder="Enter first name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="last-name">
+                        Last Name <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="last-name"
+                        placeholder="Enter last name"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="example@gmail.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="9876543210"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="address">
+                    Address
+                </label>
+
+                <input
+                    type="text"
+                    id="address"
+                    placeholder="Enter your address"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="special-request">
+                    Special Request
+                </label>
+
+                <textarea
+                    id="special-request"
+                    placeholder="Any special requirements?"
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-btn"
+                id="submitBtn"
+            >
+                Confirm Booking
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================================
+         BOOKING SUMMARY
+    ================================================== -->
+
+    <div class="summary-card">
+
+        <h2>Booking Summary</h2>
+
+
+        <div class="summary-item">
+
+            <span>Room</span>
+
+            <strong id="summary-room">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>Check-in</span>
+
+            <strong id="summary-checkin">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>Check-out</span>
+
+            <strong id="summary-checkout">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>Guests</span>
+
+            <strong id="summary-guests">
+                2
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>Nights</span>
+
+            <strong id="summary-nights">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <span>Price / Night</span>
+
+            <strong id="summary-price">
+                ₹0
+            </strong>
+
+        </div>
+
+
+        <div class="summary-total">
+
+            <span>Total</span>
+
+            <span id="summary-total">
+                ₹0
+            </span>
+
+        </div>
+
+
+        <p class="price-note">
+
+            * Taxes and additional hotel services may
+            be calculated separately.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        © 2026 Grand Horizon Hotel & Resort.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+<script>
+
+
+// =====================================================
+// ROOM PRICES
+// =====================================================
+
+const roomPrices = {
+
+    "Deluxe Room": 4999,
+
+    "Executive Room": 6999,
+
+    "Luxury Suite": 9999,
+
+    "Presidential Suite": 14999,
+
+    "Family Room": 7499,
+
+    "Ocean View Room": 8499
+
+};
+
+
+// =====================================================
+// FORM ELEMENTS
+// =====================================================
+
+const bookingForm =
+    document.getElementById("bookingForm");
+
+const checkIn =
+    document.getElementById("check-in");
+
+const checkOut =
+    document.getElementById("check-out");
+
+const roomType =
+    document.getElementById("room-type");
+
+const guests =
+    document.getElementById("guests");
+
+const firstName =
+    document.getElementById("first-name");
+
+const lastName =
+    document.getElementById("last-name");
+
+const email =
+    document.getElementById("email");
+
+const phone =
+    document.getElementById("phone");
+
+const address =
+    document.getElementById("address");
+
+const specialRequest =
+    document.getElementById("special-request");
+
+const availabilityBox =
+    document.getElementById("availabilityBox");
+
+const submitBtn =
+    document.getElementById("submitBtn");
+
+
+// =====================================================
+// TODAY
+// =====================================================
+
+const today =
+    new Date().toISOString().split("T")[0];
+
+checkIn.min = today;
+checkOut.min = today;
+
+
+// =====================================================
+// GET BOOKINGS
+// =====================================================
+
+function getBookings() {
+
+    return JSON.parse(
+        localStorage.getItem("hotelBookings")
+    ) || [];
+
+}
+
+
+// =====================================================
+// CALCULATE NIGHTS
+// =====================================================
+
+function calculateNights() {
+
+    if (
+        !checkIn.value ||
+        !checkOut.value
+    ) {
+
+        return 0;
+
+    }
+
+
+    const start =
+        new Date(
+            checkIn.value + "T00:00:00"
+        );
+
+    const end =
+        new Date(
+            checkOut.value + "T00:00:00"
+        );
+
+
+    const difference =
+        end - start;
+
+
+    const nights =
+        Math.ceil(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    return nights > 0
+        ? nights
+        : 0;
+
+}
+
+
+// =====================================================
+// CHECK ROOM AVAILABILITY
+// =====================================================
+
+function isRoomAvailable(
+    selectedRoom,
+    selectedCheckIn,
+    selectedCheckOut
+) {
+
+    if (
+        !selectedRoom ||
+        !selectedCheckIn ||
+        !selectedCheckOut
+    ) {
+
+        return true;
+
+    }
+
+
+    const bookings =
+        getBookings();
+
+
+    const newStart =
+        new Date(
+            selectedCheckIn +
+            "T00:00:00"
+        );
+
+
+    const newEnd =
+        new Date(
+            selectedCheckOut +
+            "T00:00:00"
+        );
+
+
+    // Check every existing booking
+    for (
+        const booking of bookings
+    ) {
+
+        // Only compare same room
+        if (
+            booking.room !== selectedRoom
+        ) {
+
+            continue;
+
+        }
+
+
+        // Ignore cancelled bookings
+        if (
+            booking.status &&
+            booking.status.toLowerCase() ===
+            "cancelled"
+        ) {
+
+            continue;
+
+        }
+
+
+        if (
+            !booking.checkIn ||
+            !booking.checkOut
+        ) {
+
+            continue;
+
+        }
+
+
+        const existingStart =
+            new Date(
+                booking.checkIn +
+                "T00:00:00"
+            );
+
+
+        const existingEnd =
+            new Date(
+                booking.checkOut +
+                "T00:00:00"
+            );
+
+
+        /*
+            OVERLAP RULE:
+
+            New start < Existing end
+            AND
+            New end > Existing start
+
+            If both are true,
+            the dates overlap.
+        */
+
+        if (
+            newStart < existingEnd &&
+            newEnd > existingStart
+        ) {
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+// =====================================================
+// SHOW AVAILABILITY
+// =====================================================
+
+function checkAvailability() {
+
+    const room =
+        roomType.value;
+
+    const start =
+        checkIn.value;
+
+    const end =
+        checkOut.value;
+
+
+    availabilityBox.className =
+        "availability-box";
+
+
+    availabilityBox.textContent =
+        "";
+
+
+    submitBtn.disabled = false;
+
+
+    if (
+        !room ||
+        !start ||
+        !end
+    ) {
+
+        return;
+
+    }
+
+
+    const nights =
+        calculateNights();
+
+
+    if (nights <= 0) {
+
+        availabilityBox.className =
+            "availability-box info";
+
+        availabilityBox.textContent =
+            "Please select a valid check-in and check-out date.";
+
+        submitBtn.disabled = true;
+
+        return;
+
+    }
+
+
+    const available =
+        isRoomAvailable(
+            room,
+            start,
+            end
+        );
+
+
+    if (available) {
+
+        availabilityBox.className =
+            "availability-box available";
+
+        availabilityBox.textContent =
+            "✓ " +
+            room +
+            " is available for your selected dates.";
+
+        submitBtn.disabled = false;
+
+    } else {
+
+        availabilityBox.className =
+            "availability-box unavailable";
+
+        availabilityBox.textContent =
+            "✕ " +
+            room +
+            " is already booked for part of these dates. Please choose different dates or another room.";
+
+        submitBtn.disabled = true;
+
+    }
+
+}
+
+
+// =====================================================
+// UPDATE SUMMARY
+// =====================================================
+
+function updateSummary() {
+
+    const room =
+        roomType.value;
+
+    const price =
+        roomPrices[room] || 0;
+
+    const nights =
+        calculateNights();
+
+    const total =
+        price * nights;
+
+
+    document.getElementById(
+        "summary-room"
+    ).textContent =
+        room || "-";
+
+
+    document.getElementById(
+        "summary-checkin"
+    ).textContent =
+        checkIn.value || "-";
+
+
+    document.getElementById(
+        "summary-checkout"
+    ).textContent =
+        checkOut.value || "-";
+
+
+    document.getElementById(
+        "summary-guests"
+    ).textContent =
+        guests.value;
+
+
+    document.getElementById(
+        "summary-nights"
+    ).textContent =
+        nights;
+
+
+    document.getElementById(
+        "summary-price"
+    ).textContent =
+        "₹" +
+        price.toLocaleString("en-IN");
+
+
+    document.getElementById(
+        "summary-total"
+    ).textContent =
+        "₹" +
+        total.toLocaleString("en-IN");
+
+
+    checkAvailability();
+
+}
+
+
+// =====================================================
+// CHECK-IN CHANGE
+// =====================================================
+
+checkIn.addEventListener(
+    "change",
+    function() {
+
+        checkOut.min =
+            checkIn.value;
+
+
+        if (
+            checkOut.value &&
+            checkOut.value <=
+            checkIn.value
+        ) {
+
+            checkOut.value = "";
+
+        }
+
+
+        updateSummary();
+
+    }
+);
+
+
+// =====================================================
+// OTHER CHANGES
+// =====================================================
+
+checkOut.addEventListener(
+    "change",
+    updateSummary
+);
+
+
+roomType.addEventListener(
+    "change",
+    updateSummary
+);
+
+
+guests.addEventListener(
+    "change",
+    updateSummary
+);
+
+
+// =====================================================
+// FORM SUBMIT
+// =====================================================
+
+bookingForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        // -----------------------------
+        // ROOM VALIDATION
+        // -----------------------------
+
+        if (!roomType.value) {
+
+            alert(
+                "Please select a room."
+            );
+
+            return;
+
+        }
+
+
+        // -----------------------------
+        // DATE VALIDATION
+        // -----------------------------
+
+        const nights =
+            calculateNights();
+
+
+        if (nights <= 0) {
+
+            alert(
+                "Please select a valid check-in and check-out date."
+            );
+
+            return;
+
+        }
+
+
+        // =================================================
+        // FINAL AVAILABILITY CHECK
+        // =================================================
+
+        const available =
+            isRoomAvailable(
+                roomType.value,
+                checkIn.value,
+                checkOut.value
+            );
+
+
+        if (!available) {
+
+            alert(
+                "Sorry! This room is not available for the selected dates."
+            );
+
+            checkAvailability();
+
+            return;
+
+        }
+
+
+        // =================================================
+        // ROOM PRICE
+        // =================================================
+
+        const price =
+            roomPrices[
+                roomType.value
+            ];
+
+
+        const total =
+            price * nights;
+
+
+        // =================================================
+        // BOOKING ID
+        // =================================================
+
+        const bookingId =
+            "GH" +
+            Date.now()
+                .toString()
+                .slice(-6);
+
+
+        // =================================================
+        // BOOKING OBJECT
+        // =================================================
+
+        const booking = {
+
+            id:
+                bookingId,
+
+            firstName:
+                firstName.value.trim(),
+
+            lastName:
+                lastName.value.trim(),
+
+            guest:
+                firstName.value.trim() +
+                " " +
+                lastName.value.trim(),
+
+            email:
+                email.value.trim(),
+
+            phone:
+                phone.value.trim(),
+
+            address:
+                address.value.trim(),
+
+            specialRequest:
+                specialRequest.value.trim(),
+
+            room:
+                roomType.value,
+
+            checkIn:
+                checkIn.value,
+
+            checkOut:
+                checkOut.value,
+
+            guests:
+                guests.value,
+
+            nights:
+                nights,
+
+            price:
+                price,
+
+            total:
+                total,
+
+            status:
+                "Confirmed",
+
+            paymentStatus:
+                "Pending",
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        // =================================================
+        // SAVE BOOKING
+        // =================================================
+
+        const bookings =
+            getBookings();
+
+
+        bookings.push(
+            booking
+        );
+
+
+        localStorage.setItem(
+            "hotelBookings",
+            JSON.stringify(bookings)
+        );
+
+
+        // =================================================
+        // SAVE / UPDATE GUEST
+        // =================================================
+
+        const guestsList =
+            JSON.parse(
+                localStorage.getItem(
+                    "hotelGuests"
+                )
+            ) || [];
+
+
+        const existingGuestIndex =
+            guestsList.findIndex(
+                guest =>
+                    guest.email &&
+                    guest.email.toLowerCase() ===
+                    email.value.trim().toLowerCase()
+            );
+
+
+        // =================================================
+        // EXISTING GUEST
+        // =================================================
+
+        if (
+            existingGuestIndex !== -1
+        ) {
+
+            const existingGuest =
+                guestsList[
+                    existingGuestIndex
+                ];
+
+
+            existingGuest.name =
+                firstName.value.trim() +
+                " " +
+                lastName.value.trim();
+
+
+            existingGuest.phone =
+                phone.value.trim();
+
+
+            existingGuest.address =
+                address.value.trim();
+
+
+            existingGuest.room =
+                roomType.value;
+
+
+            existingGuest.lastVisit =
+                checkIn.value;
+
+
+            existingGuest.totalBookings =
+                (existingGuest.totalBookings || 0) +
+                1;
+
+
+            existingGuest.status =
+                "Active";
+
+
+            guestsList[
+                existingGuestIndex
+            ] =
+                existingGuest;
+
+        }
+
+
+        // =================================================
+        // NEW GUEST
+        // =================================================
+
+        else {
+
+            const newGuest = {
+
+                id:
+                    "G" +
+                    Date.now()
+                        .toString()
+                        .slice(-6),
+
+                name:
+                    firstName.value.trim() +
+                    " " +
+                    lastName.value.trim(),
+
+                email:
+                    email.value.trim(),
+
+                phone:
+                    phone.value.trim(),
+
+                address:
+                    address.value.trim(),
+
+                room:
+                    roomType.value,
+
+                lastVisit:
+                    checkIn.value,
+
+                totalBookings:
+                    1,
+
+                status:
+                    "Active",
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            guestsList.push(
+                newGuest
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "hotelGuests",
+            JSON.stringify(
+                guestsList
+            )
+        );
+
+
+        // =================================================
+        // SUCCESS
+        // =================================================
+
+        alert(
+
+            "Booking Confirmed Successfully! 🎉\n\n" +
+
+            "Booking ID: " +
+            bookingId +
+            "\n" +
+
+            "Guest: " +
+            firstName.value.trim() +
+            " " +
+            lastName.value.trim() +
+            "\n" +
+
+            "Room: " +
+            roomType.value +
+            "\n" +
+
+            "Check-in: " +
+            checkIn.value +
+            "\n" +
+
+            "Check-out: " +
+            checkOut.value +
+            "\n" +
+
+            "Total: ₹" +
+            total.toLocaleString("en-IN")
+
+        );
+
+
+        // =================================================
+        // ADMIN DASHBOARD
+        // =================================================
+
+        window.location.href =
+            "admin.html";
+
+    }
+);
+
+
+// =====================================================
+// INITIAL LOAD
+// =====================================================
+
+updateSummary();
+
+</script>
+
+
+</body>
+
+</html>

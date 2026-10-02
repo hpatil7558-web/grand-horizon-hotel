@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rooms | Grand Horizon Hotel & Resort</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .rooms-page {
+            padding: 120px 0 80px;
+            background: #f7f5f0;
+        }
+
+        .rooms-heading {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .rooms-heading small {
+            color: #a47b42;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .rooms-heading h1 {
+            font-family: Georgia, serif;
+            font-size: 48px;
+            margin: 12px 0;
+            color: #1c2b2b;
+        }
+
+        .rooms-heading p {
+            color: #666;
+            max-width: 650px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .room-card {
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+            transition: .3s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .15);
+        }
+
+        .room-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .room-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .room-card:hover .room-image img {
+            transform: scale(1.08);
+        }
+
+        .room-content {
+            padding: 25px;
+        }
+
+        .room-content h2 {
+            font-family: Georgia, serif;
+            color: #1c2b2b;
+            margin-bottom: 10px;
+        }
+
+        .room-content p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .room-features {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 18px 0;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .room-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 18px;
+        }
+
+        .price strong {
+            font-size: 22px;
+            color: #a47b42;
+        }
+
+        .price span {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .room-btn {
+            background: #1c2b2b;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            display: inline-block;
+            transition: .3s;
+        }
+
+        .room-btn:hover {
+            background: #a47b42;
+        }
+
+        .rooms-footer {
+            margin-top: 70px;
+            background: #1c2b2b;
+            color: white;
+            padding: 45px;
+            text-align: center;
+        }
+
+        .rooms-footer h2 {
+            font-family: Georgia, serif;
+            margin-bottom: 12px;
+        }
+
+        .rooms-footer p {
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .footer-btn {
+            display: inline-block;
+            padding: 13px 25px;
+            background: #a47b42;
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .rooms-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rooms-heading h1 {
+                font-size: 38px;
+            }
+
+            .rooms-footer {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+
+                <span class="logo-icon">GH</span>
+
+                <span class="logo-text">
+                    <strong>GRAND HORIZON</strong>
+                    <small>HOTEL & RESORT</small>
+                </span>
+
+            </a>
+
+            <nav class="nav-links">
+
+                <a href="index.html">Home</a>
+
+                <a href="rooms.html">Rooms</a>
+
+                <a href="#">About</a>
+
+                <a href="#">Facilities</a>
+
+                <a href="#">Gallery</a>
+
+                <a href="#">Contact</a>
+
+            </nav>
+
+            <div class="nav-buttons">
+
+                <a href="login.html" class="login-btn">
+                    Login
+                </a>
+
+                <a href="booking.html" class="book-btn">
+                    Book Now
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ROOMS SECTION -->
+
+    <main class="rooms-page">
+
+        <div class="container">
+
+            <div class="rooms-heading">
+
+                <small>ACCOMMODATION</small>
+
+                <h1>Our Rooms & Suites</h1>
+
+                <p>
+                    Discover beautifully designed rooms and suites
+                    created for comfort, relaxation and an unforgettable
+                    hotel experience.
+                </p>
+
+            </div>
+
+
+            <!-- ROOMS GRID -->
+
+            <div class="rooms-grid">
+
+
+                <!-- DELUXE ROOM -->
+
+                <div class="room-card">
+
+                    <div class="room-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80"
+                            alt="Deluxe Room">
+
+                    </div>
+
+                    <div class="room-content">
+
+                        <h2>Deluxe Room</h2>
+
+                        <p>
+                            A comfortable and elegant room with
+                            modern interiors and everything you need
+                            for a relaxing stay.
+                        </p>
+
+                        <div class="room-features">
+
+                            <span>🛏 King Bed</span>
+
+                            <span>👤 2 Guests</span>
+
+                            <span>📶 Wi-Fi</span>
+
+                        </div>
+
+                        <div class="room-price">
+
+                            <div class="price">
+
+                                <strong>₹4,999</strong>
+
+                                <span>/ night</span>
+
+                            </div>
+
+                            <a href="booking.html" class="room-btn">
+                                Book Now
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EXECUTIVE ROOM -->
+
+                <div class="room-card">
+
+                    <div class="room-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1000&q=80"
+                            alt="Executive Room">
+
+                    </div>
+
+                    <div class="room-content">
+
+                        <h2>Executive Room</h2>
+
+                        <p>
+                            Spacious accommodation featuring premium
+                            furnishings, work space and beautiful views.
+                        </p>
+
+                        <div class="room-features">
+
+                            <span>🛏 King Bed</span>
+
+                            <span>👤 3 Guests</span>
+
+                            <span>🍽 Breakfast</span>
+
+                        </div>
+
+                        <div class="room-price">
+
+                            <div class="price">
+
+                                <strong>₹6,999</strong>
+
+                                <span>/ night</span>
+
+                            </div>
+
+                            <a href="booking.html" class="room-btn">
+                                Book Now
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUITE -->
+
+                <div class="room-card">
+
+                    <div class="room-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1000&q=80"
+                            alt="Luxury Suite">
+
+                    </div>
+
+                    <div class="room-content">
+
+                        <h2>Luxury Suite</h2>
+
+                        <p>
+                            Experience exceptional comfort with a
+                            separate living area and premium amenities.
+                        </p>
+
+                        <div class="room-features">
+
+                            <span>🛏 King Bed</span>
+
+                            <span>👤 4 Guests</span>
+
+                            <span>🛋 Living Room</span>
+
+                        </div>
+
+                        <div class="room-price">
+
+                            <div class="price">
+
+                                <strong>₹9,999</strong>
+
+                                <span>/ night</span>
+
+                            </div>
+
+                            <a href="booking.html" class="room-btn">
+                                Book Now
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRESIDENTIAL SUITE -->
+
+                <div class="room-card">
+
+                    <div class="room-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1000&q=80"
+                            alt="Presidential Suite">
+
+                    </div>
+
+                    <div class="room-content">
+
+                        <h2>Presidential Suite</h2>
+
+                        <p>
+                            Our most exclusive accommodation with
+                            luxurious interiors and premium services.
+                        </p>
+
+                        <div class="room-features">
+
+                            <span>🛏 King Bed</span>
+
+                            <span>👤 4 Guests</span>
+
+                            <span>🏊 Private Pool</span>
+
+                        </div>
+
+                        <div class="room-price">
+
+                            <div class="price">
+
+                                <strong>₹14,999</strong>
+
+                                <span>/ night</span>
+
+                            </div>
+
+                            <a href="booking.html" class="room-btn">
+                                Book Now
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FAMILY ROOM -->
+
+                <div class="room-card">
+
+                    <div class="room-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1000&q=80"
+                            alt="Family Room">
+
+                    </div>
+
+                    <div class="room-content">
+
+                        <h2>Family Room</h2>
+
+                        <p>
+                            A spacious room designed for families,
+                            offering comfort and convenient amenities.
+                        </p>
+
+                        <div class="room-features">
+
+                            <span>🛏 2 Beds</span>
+
+                            <span>👨‍👩‍👧‍👦 5 Guests</span>
+
+                            <span>📺 Smart TV</span>
+
+                        </div>
+
+                        <div class="room-price">
+
+                            <div class="price">
+
+                                <strong>₹7,499</strong>
+
+                                <span>/ night</span>
+
+                            </div>
+
+                            <a href="booking.html" class="room-btn">
+                                Book Now
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OCEAN VIEW ROOM -->
+
+                <div class="room-card">
+
+                    <div class="room-image">
+
+                        <img
+                            src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1000&q=80"
+                            alt="Ocean View Room">
+
+                    </div>
+
+                    <div class="room-content">
+
+                        <h2>Ocean View Room</h2>
+
+                        <p>
+                            Wake up to beautiful views and enjoy a
+                            peaceful stay surrounded by luxury.
+                        </p>
+
+                        <div class="room-features">
+
+                            <span>🌊 Ocean View</span>
+
+                            <span>👤 2 Guests</span>
+
+                            <span>☕ Breakfast</span>
+
+                        </div>
+
+                        <div class="room-price">
+
+                            <div class="price">
+
+                                <strong>₹8,499</strong>
+
+                                <span>/ night</span>
+
+                            </div>
+
+                            <a href="booking.html" class="room-btn">
+                                Book Now
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTTOM CTA -->
+
+            <div class="rooms-footer">
+
+                <h2>Ready for an unforgettable stay?</h2>
+
+                <p>
+                    Choose your room and make your reservation today.
+                </p>
+
+                <a href="booking.html" class="footer-btn">
+                    Make a Reservation
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>

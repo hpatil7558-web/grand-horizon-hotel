@@ -1,0 +1,522 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "DM Sans", sans-serif;
+    background: #f7f5f0;
+    color: #1c2929;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/* =========================
+   MAIN PAGE
+========================= */
+
+.login-page {
+    min-height: 100vh;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+}
+
+
+/* =========================
+   LEFT IMAGE
+========================= */
+
+.login-image {
+    min-height: 100vh;
+
+    background-image:
+        linear-gradient(
+            rgba(15, 31, 31, 0.58),
+            rgba(15, 31, 31, 0.75)
+        ),
+        url("https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1600&q=90");
+
+    background-size: cover;
+
+    background-position: center;
+
+    color: white;
+}
+
+.image-overlay {
+    height: 100%;
+
+    padding: 45px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+
+/* =========================
+   BRAND
+========================= */
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid #d2a766;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    color: #d2a766;
+
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: 17px;
+}
+
+.brand strong {
+    display: block;
+
+    font-size: 15px;
+
+    letter-spacing: 2px;
+}
+
+.brand span {
+    display: block;
+
+    color: #d2a766;
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
+
+    margin-top: 2px;
+}
+
+
+/* =========================
+   WELCOME TEXT
+========================= */
+
+.welcome-text {
+    max-width: 520px;
+}
+
+.welcome-text > p:first-child {
+    color: #d2a766;
+
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+.welcome-text h1 {
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: clamp(45px, 5vw, 70px);
+
+    line-height: 1.05;
+
+    font-weight: 600;
+}
+
+.welcome-text h1 span {
+    color: #d2a766;
+}
+
+.description {
+    max-width: 450px;
+
+    color: rgba(255,255,255,0.82);
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    margin-top: 25px;
+}
+
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.login-container {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 40px;
+}
+
+.login-box {
+    width: 100%;
+
+    max-width: 450px;
+}
+
+
+/* =========================
+   BACK HOME
+========================= */
+
+.back-home {
+    color: #7c8585;
+
+    font-size: 13px;
+
+    transition: 0.3s;
+}
+
+.back-home:hover {
+    color: #a47b42;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+.form-heading {
+    margin-top: 55px;
+
+    margin-bottom: 35px;
+}
+
+.form-heading p {
+    color: #a47b42;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    font-weight: 700;
+}
+
+.form-heading h2 {
+    font-family:
+        "Playfair Display",
+        serif;
+
+    font-size: 42px;
+
+    line-height: 1.1;
+
+    margin-top: 8px;
+}
+
+.form-heading span {
+    display: block;
+
+    color: #7d8787;
+
+    font-size: 14px;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-group {
+    margin-bottom: 22px;
+}
+
+.input-group label {
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+    color: #374444;
+}
+
+.input-group input {
+    width: 100%;
+
+    height: 52px;
+
+    border: 1px solid #d9d8d3;
+
+    background: white;
+
+    padding: 0 15px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #a47b42;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(164, 123, 66, 0.08);
+}
+
+.input-group input::placeholder {
+    color: #a5aaaa;
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 65px;
+}
+
+.password-box button {
+    position: absolute;
+
+    right: 12px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    color: #a47b42;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+.form-options {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+    font-size: 12px;
+}
+
+.remember {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #697272;
+
+    cursor: pointer;
+}
+
+.remember input {
+    accent-color: #a47b42;
+}
+
+.form-options a {
+    color: #a47b42;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.login-submit {
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    background: #1c2c2c;
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.login-submit:hover {
+    background: #a47b42;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+.divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 30px 0;
+
+    color: #a2a8a8;
+
+    font-size: 10px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: #e2e1dd;
+}
+
+
+/* =========================
+   REGISTER
+========================= */
+
+.register-text {
+    text-align: center;
+
+    color: #7b8383;
+
+    font-size: 13px;
+}
+
+.register-text a {
+    color: #a47b42;
+
+    font-weight: 700;
+
+    margin-left: 4px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.login-footer {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 50px;
+
+    color: #a0a5a5;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 850px) {
+
+    .login-page {
+        grid-template-columns: 1fr;
+    }
+
+    .login-image {
+        display: none;
+    }
+
+    .login-container {
+        min-height: 100vh;
+
+        padding: 30px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .login-container {
+        padding: 25px 20px;
+    }
+
+    .form-heading {
+        margin-top: 40px;
+    }
+
+    .form-heading h2 {
+        font-size: 35px;
+    }
+
+    .login-footer {
+        margin-top: 35px;
+    }
+}

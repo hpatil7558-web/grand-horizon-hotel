@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Grand Horizon | Guests</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #0b1f3a;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h2 {
+            font-size: 22px;
+            color: #ffffff;
+        }
+
+        .logo p {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 5px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 13px 15px;
+            margin-bottom: 7px;
+            border-radius: 8px;
+            color: #dbe4f0;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #163b67;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 25px;
+            display: inline-block;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+        }
+
+        .topbar p {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .back-btn {
+            background: #0b1f3a;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .stat-card h3 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .stat-card p {
+            color: #6b7280;
+        }
+
+        /* CONTENT */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        input,
+        select {
+            padding: 11px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        .btn {
+            border: none;
+            padding: 11px 17px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #0b1f3a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #163b67;
+        }
+
+        /* TABLE */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .guest-name {
+            font-weight: bold;
+        }
+
+        .guest-email {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .view-btn {
+            background: #e8eef7;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0b1f3a;
+            font-weight: bold;
+        }
+
+        .view-btn:hover {
+            background: #d7e2f1;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            width: 500px;
+            max-width: 90%;
+            border-radius: 12px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .modal-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .close {
+            position: absolute;
+            right: 18px;
+            top: 15px;
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .detail {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail strong {
+            display: inline-block;
+            width: 130px;
+        }
+
+        /* EMPTY */
+        .empty {
+            text-align: center;
+            padding: 45px;
+            color: #6b7280;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media(max-width: 700px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 8px;
+            }
+
+            .logo h2,
+            .logo p,
+            .nav-item span:not(.nav-icon) {
+                display: none;
+            }
+
+            .nav-item {
+                text-align: center;
+                padding: 13px 5px;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 20px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            input,
+            select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>Grand Horizon</h2>
+            <p>Hotel Management</p>
+        </div>
+
+        <a href="admin.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="admin.html" class="nav-item">
+            <span class="nav-icon">📅</span>
+            <span>Reservations</span>
+        </a>
+
+        <a href="admin.html" class="nav-item">
+            <span class="nav-icon">🛏️</span>
+            <span>Rooms</span>
+        </a>
+
+        <a href="guests.html" class="nav-item active">
+            <span class="nav-icon">👥</span>
+            <span>Guests</span>
+        </a>
+
+        <a href="payments.html" class="nav-item">
+            <span class="nav-icon">💳</span>
+            <span>Payments</span>
+        </a>
+
+        <a href="reports.html" class="nav-item">
+            <span class="nav-icon">📈</span>
+            <span>Reports</span>
+        </a>
+
+        <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🌐</span>
+            <span>View Website</span>
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Guest Management</h1>
+                <p>Manage all hotel guests and their booking history.</p>
+            </div>
+
+            <a href="admin.html" class="back-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- STATS -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <h3 id="totalGuests">0</h3>
+                <p>Total Guests</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="activeGuests">0</h3>
+                <p>Active Guests</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="repeatGuests">0</h3>
+                <p>Repeat Guests</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="totalBookings">0</h3>
+                <p>Total Bookings</p>
+            </div>
+
+        </section>
+
+
+        <!-- GUEST TABLE -->
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>Guest List</h2>
+
+                <div class="actions">
+
+                    <input
+                        type="text"
+                        id="searchGuest"
+                        placeholder="Search guest..."
+                        oninput="searchGuests()"
+                    >
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="refreshGuests()"
+                    >
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Guest</th>
+                            <th>Phone</th>
+                            <th>Room</th>
+                            <th>Last Visit</th>
+                            <th>Bookings</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="guestTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- VIEW GUEST MODAL -->
+    <div class="modal" id="guestModal">
+
+        <div class="modal-box">
+
+            <button class="close" onclick="closeModal()">×</button>
+
+            <h2>Guest Details</h2>
+
+            <div id="guestDetails"></div>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+    // ======================================
+    // LOAD GUESTS
+    // ======================================
+
+    function getGuests() {
+
+        return JSON.parse(
+            localStorage.getItem("hotelGuests")
+        ) || [];
+
+    }
+
+
+    // ======================================
+    // DISPLAY GUESTS
+    // ======================================
+
+    function loadGuests() {
+
+        const guests = getGuests();
+
+        const table = document.getElementById(
+            "guestTableBody"
+        );
+
+        table.innerHTML = "";
+
+        if (guests.length === 0) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        <div class="empty">
+                            <h3>No guests found</h3>
+                            <p>Guests will appear here after a booking is made.</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            updateStats(guests);
+
+            return;
+        }
+
+
+        guests
+            .slice()
+            .reverse()
+            .forEach(guest => {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+
+                    <td>
+
+                        <div class="guest-name">
+                            ${escapeHTML(guest.name)}
+                        </div>
+
+                        <div class="guest-email">
+                            ${escapeHTML(guest.email)}
+                        </div>
+
+                    </td>
+
+                    <td>
+                        ${escapeHTML(guest.phone || "-")}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(guest.room || "-")}
+                    </td>
+
+                    <td>
+                        ${formatDate(guest.lastVisit)}
+                    </td>
+
+                    <td>
+                        ${guest.totalBookings || 1}
+                    </td>
+
+                    <td>
+
+                        <span class="status ${
+                            guest.status === "Inactive"
+                            ? "inactive"
+                            : "active"
+                        }">
+
+                            ${guest.status || "Active"}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="view-btn"
+                            onclick="viewGuest('${guest.id}')"
+                        >
+                            View
+                        </button>
+
+                    </td>
+
+                `;
+
+                table.appendChild(row);
+
+            });
+
+
+        updateStats(guests);
+    }
+
+
+    // ======================================
+    // UPDATE STATISTICS
+    // ======================================
+
+    function updateStats(guests) {
+
+        const total = guests.length;
+
+        const active = guests.filter(
+            guest => guest.status !== "Inactive"
+        ).length;
+
+        const repeat = guests.filter(
+            guest => (guest.totalBookings || 1) > 1
+        ).length;
+
+        const bookings = guests.reduce(
+            (sum, guest) =>
+                sum + (guest.totalBookings || 1),
+            0
+        );
+
+
+        document.getElementById("totalGuests")
+            .textContent = total;
+
+        document.getElementById("activeGuests")
+            .textContent = active;
+
+        document.getElementById("repeatGuests")
+            .textContent = repeat;
+
+        document.getElementById("totalBookings")
+            .textContent = bookings;
+    }
+
+
+    // ======================================
+    // SEARCH
+    // ======================================
+
+    function searchGuests() {
+
+        const search =
+            document
+                .getElementById("searchGuest")
+                .value
+                .toLowerCase();
+
+        const rows =
+            document.querySelectorAll(
+                "#guestTableBody tr"
+            );
+
+        rows.forEach(row => {
+
+            const text =
+                row.textContent.toLowerCase();
+
+            row.style.display =
+                text.includes(search)
+                ? ""
+                : "none";
+
+        });
+    }
+
+
+    // ======================================
+    // VIEW GUEST
+    // ======================================
+
+    function viewGuest(id) {
+
+        const guests = getGuests();
+
+        const guest = guests.find(
+            item => item.id === id
+        );
+
+        if (!guest) return;
+
+
+        document.getElementById(
+            "guestDetails"
+        ).innerHTML = `
+
+            <div class="detail">
+                <strong>Guest ID:</strong>
+                ${escapeHTML(guest.id)}
+            </div>
+
+            <div class="detail">
+                <strong>Name:</strong>
+                ${escapeHTML(guest.name)}
+            </div>
+
+            <div class="detail">
+                <strong>Email:</strong>
+                ${escapeHTML(guest.email)}
+            </div>
+
+            <div class="detail">
+                <strong>Phone:</strong>
+                ${escapeHTML(guest.phone || "-")}
+            </div>
+
+            <div class="detail">
+                <strong>Address:</strong>
+                ${escapeHTML(guest.address || "-")}
+            </div>
+
+            <div class="detail">
+                <strong>Room:</strong>
+                ${escapeHTML(guest.room || "-")}
+            </div>
+
+            <div class="detail">
+                <strong>Last Visit:</strong>
+                ${formatDate(guest.lastVisit)}
+            </div>
+
+            <div class="detail">
+                <strong>Total Bookings:</strong>
+                ${guest.totalBookings || 1}
+            </div>
+
+            <div class="detail">
+                <strong>Status:</strong>
+                ${escapeHTML(guest.status || "Active")}
+            </div>
+
+        `;
+
+
+        document
+            .getElementById("guestModal")
+            .classList.add("show");
+    }
+
+
+    // ======================================
+    // CLOSE MODAL
+    // ======================================
+
+    function closeModal() {
+
+        document
+            .getElementById("guestModal")
+            .classList.remove("show");
+
+    }
+
+
+    // ======================================
+    // REFRESH
+    // ======================================
+
+    function refreshGuests() {
+
+        loadGuests();
+
+        document.getElementById(
+            "searchGuest"
+        ).value = "";
+
+    }
+
+
+    // ======================================
+    // FORMAT DATE
+    // ======================================
+
+    function formatDate(date) {
+
+        if (!date) return "-";
+
+        const d = new Date(date);
+
+        if (isNaN(d.getTime())) {
+            return date;
+        }
+
+        return d.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+    }
+
+
+    // ======================================
+    // SECURITY
+    // ======================================
+
+    function escapeHTML(value) {
+
+        if (value === undefined || value === null) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    // ======================================
+    // CLOSE MODAL WHEN CLICKING OUTSIDE
+    // ======================================
+
+    window.addEventListener(
+        "click",
+        function(event) {
+
+            const modal =
+                document.getElementById("guestModal");
+
+            if (event.target === modal) {
+                closeModal();
+            }
+
+        }
+    );
+
+
+    // ======================================
+    // START
+    // ======================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            loadGuests();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
